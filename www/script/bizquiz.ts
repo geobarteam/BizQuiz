@@ -2,37 +2,28 @@
 /// <reference path="phonegap.d.ts" />
 
 class App {
-	initialize () {
+	static initialize () {
 		console.log("initialize");
-		this.bindEvents();
+		App.bindEvents();
 	}
 	
-	private onDeviceReady () {
+    static onDeviceReady () {
 		console.log("onDeviceReady!!!");
-		
-			console.log("receivedEvent");
-			var parentElement = document.getElementById('deviceready');
-	        var listeningElement = parentElement.querySelector('.listening');
-	        var receivedElement = parentElement.querySelector('.received');
-		try
-		{
-			console.log(parentElement);
-	        listeningElement.setAttribute('style', 'display:none;');
-	        receivedElement.setAttribute('style', 'display:block;');
-
-	        console.log('Received Event');
-		}
-		catch(ex)
-		{
-			console.log(ex);
-		}
-		
+		App.blinkDeviceReady("deviceready");
 	}
 
-	private bindEvents () {
+	private static bindEvents () {
 		console.log("bindEvents");
-		document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener("deviceready", App.onDeviceReady, false);
 	}
 
-	
+	private static blinkDeviceReady(devicereadyId: string)
+	{
+		console.log("blinkDeviceReady "+ devicereadyId);
+		var parentElement = document.getElementById(devicereadyId);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
+	}
 }

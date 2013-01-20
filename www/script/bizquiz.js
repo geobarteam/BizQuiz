@@ -1,27 +1,24 @@
 var App = (function () {
     function App() { }
-    App.prototype.initialize = function () {
+    App.initialize = function initialize() {
         console.log("initialize");
-        this.bindEvents();
-    };
-    App.prototype.onDeviceReady = function () {
+        App.bindEvents();
+    }
+    App.onDeviceReady = function onDeviceReady() {
         console.log("onDeviceReady!!!");
-        console.log("receivedEvent");
-        var parentElement = document.getElementById('deviceready');
+        App.blinkDeviceReady("deviceready");
+    }
+    App.bindEvents = function bindEvents() {
+        console.log("bindEvents");
+        document.addEventListener("deviceready", App.onDeviceReady, false);
+    }
+    App.blinkDeviceReady = function blinkDeviceReady(devicereadyId) {
+        console.log("blinkDeviceReady " + devicereadyId);
+        var parentElement = document.getElementById(devicereadyId);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
-        try  {
-            console.log(parentElement);
-            listeningElement.setAttribute('style', 'display:none;');
-            receivedElement.setAttribute('style', 'display:block;');
-            console.log('Received Event');
-        } catch (ex) {
-            console.log(ex);
-        }
-    };
-    App.prototype.bindEvents = function () {
-        console.log("bindEvents");
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    };
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
+    }
     return App;
 })();
