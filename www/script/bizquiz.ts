@@ -1,29 +1,30 @@
 /// <reference path="jquery.d.ts" />
 /// <reference path="phonegap.d.ts" />
+/// <reference path="jquerymobile.d.ts" />
 
 class App {
-	static initialize () {
-		console.log("initialize");
-		App.bindEvents();
+	static deviceReadyId : string;
+
+	static initialize(deviceReadyId: string){
+		console.log("Initialize");
+		App.deviceReadyId = deviceReadyId;
+		this.bindEvents();
 	}
 	
-    static onDeviceReady () {
-		console.log("onDeviceReady!!!");
-		App.blinkDeviceReady("deviceready");
-	}
-
 	private static bindEvents () {
 		console.log("bindEvents");
-		document.addEventListener("deviceready", App.onDeviceReady, false);
+		document.addEventListener("deviceready", this.onDeviceReady, false);
 	}
 
-	private static blinkDeviceReady(devicereadyId: string)
-	{
-		console.log("blinkDeviceReady "+ devicereadyId);
-		var parentElement = document.getElementById(devicereadyId);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    private static onDeviceReady () {
+    	console.log("onDeviceReady!!!");
+		try
+		{
+			 $.mobile.changePage( "login.html", { transition: "slideup"} );
+		}
+    	catch(e)
+    	{
+    		console.log(e);
+    	}
 	}
 }
