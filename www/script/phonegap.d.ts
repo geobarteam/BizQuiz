@@ -291,7 +291,7 @@ interface GeolocationOptions {
 interface Geolocation {
     getCurrentPosition(geolocationSuccess: (position: Position) => void , geolocationError?: PositionErrorCallback, geolocationOptions?: GeolocationOptions): void;
     watchPosition(geolocationSuccess: (position: Position) => void , geolocationError?: PositionErrorCallback, geolocationOptions?: GeolocationOptions): void;
-    clearWatch(watchID: number): void;
+    //clearWatch(watchID: number): void;
 }
 
 interface GlobalizationError {
@@ -375,19 +375,7 @@ interface LocalStorage {
 }
 */
 
-interface Navigator {
-    accelerometer: Accelerometer;
-    camera: Camera;
-    capture: Capture;
-    compass: Compass;
-    connection: Connection;
-    contacts: Contacts;
-    device: Device;
-    geolocation: Geolocation;
-    globalization: Globalization;
-    notification: Notification;
-    splashscreen: Splashscreen;
-}
+
 
 interface Window {
     openDatabase(database_name: string, database_version: string, database_displayname: string, database_size: number): Database;

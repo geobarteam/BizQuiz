@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TypeScriptHTMLApp1</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:2626/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="css\images\ajax-loader.gif" />
+    <Content Include="css\images\icons-18-black.png" />
+    <Content Include="css\images\icons-18-white.png" />
+    <Content Include="css\images\icons-36-black.png" />
+    <Content Include="css\images\icons-36-white.png" />
+    <Content Include="css\index.css" />
+    <Content Include="css\jquery.mobile-1.2.0.css" />
+    <Content Include="img\logo.png" />
+    <Content Include="index.html" />
+    <Content Include="login.html" />
+    <Content Include="res\icon\ios\icon-57-2x.png" />
+    <Content Include="res\icon\ios\icon-57.png" />
+    <Content Include="res\icon\ios\icon-72-2x.png" />
+    <Content Include="res\icon\ios\icon-72.png" />
+    <Content Include="res\screen\ios\screen-ipad-landscape-2x.png" />
+    <Content Include="res\screen\ios\screen-ipad-landscape.png" />
+    <Content Include="res\screen\ios\screen-ipad-portrait-2x.png" />
+    <Content Include="res\screen\ios\screen-ipad-portrait.png" />
+    <Content Include="res\screen\ios\screen-iphone-landscape-2x.png" />
+    <Content Include="res\screen\ios\screen-iphone-landscape.png" />
+    <Content Include="res\screen\ios\screen-iphone-portrait-2x.png" />
+    <Content Include="res\screen\ios\screen-iphone-portrait.png" />
+    <TypeScriptCompile Include="script\bizzQuiz.ts" />
+    <Content Include="script\bizzQuiz.js">
+      <DependentUpon>bizzQuiz.ts</DependentUpon>
+    </Content>
+    <Content Include="script\cordova-2.3.0.js" />
+    <Content Include="script\index.js" />
+    <Content Include="script\jquery-1.8.2.js" />
+    <Content Include="script\jquery.d.ts" />
+    <Content Include="script\jquery.mobile-1.2.0.js" />
+    <Content Include="script\jquerymobile.d.ts" />
+    <Content Include="script\phonegap.d.ts" />
+    <Content Include="spec.html" />
+    <Content Include="spec\helper.js" />
+    <Content Include="spec\index.js" />
+    <Content Include="spec\lib\jasmine-1.2.0\jasmine-html.js" />
+    <Content Include="spec\lib\jasmine-1.2.0\jasmine.css" />
+    <Content Include="spec\lib\jasmine-1.2.0\jasmine.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="script\.DS_Store" />
+    <Content Include="spec\.DS_Store" />
+    <Content Include="spec\lib\jasmine-1.2.0\MIT.LICENSE" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
+</Project>

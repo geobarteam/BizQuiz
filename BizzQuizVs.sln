@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "www", "www", "{BC0C5C51-BE09-4942-9317-3AD666FC706D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "www", "www\www.csproj", "{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE6DB54A-3ED9-4DAE-ABBE-3BDE72A98936} = {BC0C5C51-BE09-4942-9317-3AD666FC706D}
+	EndGlobalSection
+EndGlobal
