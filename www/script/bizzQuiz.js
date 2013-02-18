@@ -8,6 +8,7 @@ var App = (function () {
         App.deviceReadyId = deviceReadyId;
         this.bindEvents();
         App.frontController = new FrontController(new SecurityService());
+        App.frontController.initialize();
     };
     App.bindEvents = function bindEvents() {
         console.log("bindEvents");

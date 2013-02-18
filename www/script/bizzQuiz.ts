@@ -11,6 +11,7 @@ class App {
         App.deviceReadyId = deviceReadyId;
         this.bindEvents();
         frontController = new FrontController(new SecurityService());
+        frontController.initialize();
     }
 
     private static bindEvents() {
