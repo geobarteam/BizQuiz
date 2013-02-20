@@ -28,10 +28,10 @@
         <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
         <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
         <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
-        <script type="text/javascript" src="script/bizquiz.js"></script>
+        <script type="text/javascript" src="script/bizzQuiz.js"></script>
         <script type="text/javascript">
             $(function(){
-                
+                alert(App.frontController.currentTitle) ;
               })
         </script>
     </head>
@@ -41,9 +41,29 @@
                 <h1>Login</h1>
             </div><!-- /header -->
             <div data-role ="content">
-                <div id ="logo">
-                        <p>Logo here</p>
-                </div>    
+                <form id="login_form" method="post">                
+                    <div id ="loginbox">
+                        <div>
+                           <div>
+                               Username: 
+                           </div>
+                           <div>
+                                <input type="text" id="username_txtbox" />
+                           </div>     
+                        </div>
+                        <div>
+                            <div>
+                               Password:
+                           </div>
+                           <div>
+                                 <input type="password" id="username_password" />
+                           </div> 
+                        </div>
+                        <div>
+                                <button id="logonButton">Logon</button>
+                        </div>
+                    </div>    
+                </form>
                <div id ="menu" class="blink">
                         <p>Login</p>
                 </div>	

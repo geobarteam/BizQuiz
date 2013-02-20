@@ -34,6 +34,9 @@ class FrontController {
     public user : User;
     public securityService: ISecurityService;
 
+    public logonViewModel : LgonViewModel;
+    
+
     constructor(securityService:ISecurityService)
     {
         this.user = new User();
@@ -44,17 +47,19 @@ class FrontController {
     {
         if (!this.user.isAuthenticated)
         {
-            $.mobile.changePage("login.html", { transition: "slideup" });
+            alert("not isAuthenticated!");
+            try{
+                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
+                $.mobile.changePage("login.html", { transition: "slideup" });
+            }
+            catch(e)
+            {
+                alert(e);
+            }
+            
         }
-    }
 
-    public logon(username: string, password: string)
-    {
-        if (this.securityService.authenticate(username, password))
-        {
-            this.user.isAuthenticated = true;
-            this.user.name = username;
-        }
+        alert("Loged on!");
     }
 }
 
@@ -72,3 +77,27 @@ class SecurityService implements ISecurityService {
         return username == "geobarteam" && password == "starwars";
     }
 }
+
+class LgonViewModel 
+{
+    public user : User;
+    public securityService: ISecurityService;
+
+    constructor(securityService:ISecurityService, user:User)
+    { 
+        this.user = user;
+        this.securityService = securityService;
+    }
+
+    public logon(username: string, password: string)
+    {
+        if (this.securityService.authenticate(username, password))
+        {
+            this.user.isAuthenticated = true;
+            this.user.name = username;
+            $.mobile.changePage("index.html", { transition: "slideup" });
+        }
+    }
+}
+
+
