@@ -1,6 +1,7 @@
 /// <reference path="jquery.d.ts" />
 /// <reference path="phonegap.d.ts" />
 /// <reference path="jquerymobile.d.ts" />
+/// <reference path="knockout.d.ts" />
 
 class App {
     static deviceReadyId: string;
@@ -47,7 +48,6 @@ class FrontController {
     {
         if (!this.user.isAuthenticated)
         {
-            alert("not isAuthenticated!");
             try{
                 this.logonViewModel = new LgonViewModel(this.securityService, this.user);
                 $.mobile.changePage("login.html", { transition: "slideup" });
@@ -55,12 +55,11 @@ class FrontController {
             catch(e)
             {
                 alert(e);
-            }
-            
+            }   
         }
-
-        alert("Loged on!");
     }
+
+    
 }
 
 class User {
@@ -80,19 +79,14 @@ class SecurityService implements ISecurityService {
 
 class LgonViewModel 
 {
-    public user : User;
-    public securityService: ISecurityService;
-
-    constructor(securityService:ISecurityService, user:User)
-    { 
-        this.user = user;
-        this.securityService = securityService;
+    constructor(public securityService: ISecurityService, public user : User) {
     }
 
-    public logon(username: string, password: string)
-    {
-        if (this.securityService.authenticate(username, password))
-        {
+    public userName = ko.observable("");
+    public firstName = ko.observable("");
+
+    public logon(username: string, password: string) {
+        if (this.securityService.authenticate(username, password)) {
             this.user.isAuthenticated = true;
             this.user.name = username;
             $.mobile.changePage("index.html", { transition: "slideup" });
