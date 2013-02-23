@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+        <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
+        <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
+        <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
+        <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
+        <script type="text/javascript" src="script/default.js"></script>
+        <script type="text/javascript">
+            
+            $(function () {
+                APP.FrontController.Start();
+            })
+        </script>
+    </head>
+    <body> 
+        <div data-role ="page" id="defaultPage">
+            <div data-role ="header">
+                <h1>Home</h1>
+            </div><!-- /header -->
+            <div data-role ="content">
+                <div id ="logo">
+                        <p>Logo here</p>
+                </div>    
+               <div>
+                   <p>First name: <strong data-bind="text: firstname"></strong></p>
+                   <p>Last name: <strong data-bind="text: lastname"></strong></p>
+               </div>
+            </div><!-- /content -->  
+            <div data-role ="footer">
+                
+            </div>    
+        </div><!-- /page -->
+    </body>
+</html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
