@@ -18,57 +18,79 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.css" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-        <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
-        <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
-        <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
-        <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
-        <script type="text/javascript" src="script/default.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                // App.initialize("deviceready");
-                // App.onDeviceReady();
-                $.mobile.loadPage("defaultPage", { transition: "slideup" });
-                APP.FrontController.Start();
-              })
-        </script>
-    </head>
-    <body> 
-        <div data-role ="page" id="indexPage">
-            <div data-role ="header">
-                <h1>Home</h1>
-            </div><!-- /header -->
-            <div data-role ="content">
-                <div id ="logo">
-                        <p>Logo here</p>
-                </div>    
-               <div id ="menu" class="blink">
-                        <p>Menu</p>
-                </div>	
-            </div><!-- /content -->  
-            <div data-role ="footer">
-                
-            </div>    
-        </div><!-- /page -->
-        <div data-role ="page" id="defaultPage">
-            <div data-role ="header">
-                <h1>Home</h1>
-            </div><!-- /header -->
-            <div data-role ="content">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Hello World</title>
+    <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
+    <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
+    <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
+    <script type="text/javascript" src="script/bizzQuiz.js"></script>
+    <script type="text/javascript">
+        $(function () {
+             BizzQuiz.App.initialize();
+        })
+    </script>
+</head>
+<body>
+
+    <div data-role="page" id="homeView">
+        <div data-role="header">
+            <h1>Home</h1>
+        </div>
+        <!-- /header -->
+        <div data-role="content">
+            <div id="logo">
+                <p>Logo here</p>
+            </div>
+            <div id="menu" class="blink">
+                <p>Menu</p>
+            </div>
+            <div>
+                <p>Name: <strong data-bind="text: name"></strong></p>
+            </div>
+        </div>
+        <!-- /content -->
+        <div data-role="footer">
+        </div>
+    </div>
+    <!-- /page -->
+
+    <div data-role="page" id="logonView">
+        <div data-role="header">
+            <h1>Home</h1>
+        </div>
+        <!-- /header -->
+        <div data-role="content">
+            <div id="loginbox">
                 <div>
-                   <p>First name: <strong data-bind="text: firstname"></strong></p>
-                   <p>Last name: <strong data-bind="text: lastname"></strong></p>
-               </div>
-            </div><!-- /content -->  
-            <div data-role ="footer">
-                
-            </div>    
-        </div><!-- /page -->
-    </body>
+                    <div>
+                        Username: 
+                    </div>
+                    <div>
+                        <input type="text" id="userName" data-bind="value: userName" />
+                    </div>
+                </div>
+                <div>
+                    Password:
+                </div>
+                <div>
+                     <input type="password" id="password" data-bind="value: password" />
+                </div>
+            </div>
+            <div>
+                <button data-bind="click: logon" id="Button1">Logon</button>
+            </div>
+        </div>
+        <div data-role="footer">
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
+</body>
 </html>

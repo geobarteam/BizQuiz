@@ -66,10 +66,8 @@
     <Content Include="css\images\icons-36-white.png" />
     <Content Include="css\index.css" />
     <Content Include="css\jquery.mobile-1.2.0.css" />
-    <Content Include="default.html" />
     <Content Include="img\logo.png" />
     <Content Include="index.html" />
-    <Content Include="login.html" />
     <Content Include="res\icon\ios\icon-57-2x.png" />
     <Content Include="res\icon\ios\icon-57.png" />
     <Content Include="res\icon\ios\icon-72-2x.png" />
@@ -87,10 +85,6 @@
       <DependentUpon>bizzQuiz.ts</DependentUpon>
     </Content>
     <Content Include="script\cordova-2.3.0.js" />
-    <TypeScriptCompile Include="script\default.ts" />
-    <Content Include="script\default.js">
-      <DependentUpon>default.ts</DependentUpon>
-    </Content>
     <Content Include="script\index.js" />
     <Content Include="script\jquery-1.8.2.js" />
     <Content Include="script\jquery.d.ts" />
@@ -102,7 +96,6 @@
       <DependentUpon>knockout.d.ts</DependentUpon>
     </Content>
     <Content Include="script\phonegap.d.ts" />
-    <Content Include="spec.html" />
     <Content Include="spec\helper.js" />
     <Content Include="spec\index.js" />
     <Content Include="spec\lib\jasmine-1.2.0\jasmine-html.js" />

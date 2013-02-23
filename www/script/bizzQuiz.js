@@ -2,76 +2,102 @@
 /// <reference path="phonegap.d.ts" />
 /// <reference path="jquerymobile.d.ts" />
 /// <reference path="knockout.d.ts" />
-var App = (function () {
-    function App() { }
-    App.initialize = function initialize(deviceReadyId) {
-        console.log("Initialize");
-        App.deviceReadyId = deviceReadyId;
-        this.bindEvents();
-        App.frontController = new FrontController(new SecurityService());
-        App.frontController.initialize();
-    };
-    App.bindEvents = function bindEvents() {
-        console.log("bindEvents");
-        document.addEventListener("deviceready", this.onDeviceReady, false);
-    };
-    App.onDeviceReady = function onDeviceReady() {
-        console.log("onDeviceReady!!!");
-        try  {
-            this.frontController.initialize();
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    return App;
-})();
-var FrontController = (function () {
-    function FrontController(securityService) {
-        this.user = new User();
-        this.securityService = securityService;
-    }
-    FrontController.prototype.initialize = function () {
-        if(!this.user.isAuthenticated) {
+var BizzQuiz;
+(function (BizzQuiz) {
+    var App = (function () {
+        function App() { }
+        App.initialize = function initialize() {
+            console.log("Initialize");
+            App.fc = new FrontController(new SecurityService());
+            // this.bindEvents();
+            App.onDeviceReady();
+        };
+        App.bindEvents = function bindEvents() {
+            console.log("bindEvents");
+            document.addEventListener("deviceready", this.onDeviceReady, false);
+        };
+        App.onDeviceReady = function onDeviceReady() {
+            console.log("onDeviceReady!!!");
             try  {
-                $.mobile.changePage("login.html", {
+                App.fc.init();
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        return App;
+    })();
+    BizzQuiz.App = App;    
+    var FrontController = (function () {
+        function FrontController(securityService) {
+            this.securityService = securityService;
+            this.user = new User();
+            this.logonViewModel = new LogonViewModel(this);
+            this.homeViewModel = new HomeViewModel(this);
+            ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
+            ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
+        }
+        FrontController.prototype.init = function () {
+            if(!this.user.isAuthenticated) {
+                try  {
+                    this.logonViewModel.init();
+                    $.mobile.changePage("#" + LogonViewModel.viewName, {
+                        transition: "slideup"
+                    });
+                } catch (e) {
+                    alert(e);
+                }
+            }
+        };
+        return FrontController;
+    })();
+    BizzQuiz.FrontController = FrontController;    
+    var User = (function () {
+        function User() { }
+        return User;
+    })();
+    BizzQuiz.User = User;    
+    var SecurityService = (function () {
+        function SecurityService() { }
+        SecurityService.prototype.authenticate = function (username, password) {
+            return username == "geobarteam" && password == "starwars";
+        };
+        return SecurityService;
+    })();
+    BizzQuiz.SecurityService = SecurityService;    
+    var LogonViewModel = (function () {
+        function LogonViewModel(fc) {
+            this.fc = fc;
+            this.userName = ko.observable("");
+            this.password = ko.observable("");
+        }
+        LogonViewModel.viewName = "logonView";
+        LogonViewModel.prototype.init = function () {
+            this.userName(this.fc.user.name);
+        };
+        LogonViewModel.prototype.logon = function () {
+            if(this.fc.securityService.authenticate(this.userName(), this.password())) {
+                this.fc.user.isAuthenticated = true;
+                this.fc.user.name = this.userName();
+                this.fc.homeViewModel.Init();
+                $.mobile.changePage("#" + HomeViewModel.viewName, {
                     transition: "slideup"
                 });
-                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
-                ko.applyBindings(this.logonViewModel);
-            } catch (e) {
-                alert(e);
             }
+        };
+        return LogonViewModel;
+    })();
+    BizzQuiz.LogonViewModel = LogonViewModel;    
+    var HomeViewModel = (function () {
+        function HomeViewModel(fc) {
+            this.fc = fc;
+            this.name = ko.observable("");
         }
-    };
-    return FrontController;
-})();
-var User = (function () {
-    function User() { }
-    return User;
-})();
-var SecurityService = (function () {
-    function SecurityService() { }
-    SecurityService.prototype.authenticate = function (username, password) {
-        return username == "geobarteam" && password == "starwars";
-    };
-    return SecurityService;
-})();
-var LgonViewModel = (function () {
-    function LgonViewModel(securityService, user) {
-        this.securityService = securityService;
-        this.user = user;
-        this.userName = ko.observable("Hello");
-        this.password = ko.observable("World");
-    }
-    LgonViewModel.prototype.logon = function () {
-        if(this.securityService.authenticate(this.userName.toString(), this.password.toString())) {
-            this.user.isAuthenticated = true;
-            this.user.name = this.userName.toString();
-            $.mobile.changePage("index.html", {
-                transition: "slideup"
-            });
-        }
-    };
-    return LgonViewModel;
-})();
+        HomeViewModel.viewName = "homeView";
+        HomeViewModel.prototype.Init = function () {
+            this.name(this.fc.user.name);
+        };
+        return HomeViewModel;
+    })();
+    BizzQuiz.HomeViewModel = HomeViewModel;    
+})(BizzQuiz || (BizzQuiz = {}));
 //@ sourceMappingURL=bizzQuiz.js.map

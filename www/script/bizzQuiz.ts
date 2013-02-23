@@ -3,95 +3,119 @@
 /// <reference path="jquerymobile.d.ts" />
 /// <reference path="knockout.d.ts" />
 
-class App {
-    static deviceReadyId: string;
-    static frontController: FrontController;
+module BizzQuiz {
 
-    static initialize(deviceReadyId: string) {
-        console.log("Initialize");
-        App.deviceReadyId = deviceReadyId;
-        this.bindEvents();
-        frontController = new FrontController(new SecurityService());
-        frontController.initialize();
-    }
+    export class App {
+        static fc: FrontController;
 
-    private static bindEvents() {
-        console.log("bindEvents");
-        document.addEventListener("deviceready", this.onDeviceReady, false);
-    }
-
-    private static onDeviceReady() {
-        console.log("onDeviceReady!!!");
-        try {
-            this.frontController.initialize();
+        static initialize() {
+            console.log("Initialize");
+            fc = new FrontController(new SecurityService());
+            // this.bindEvents();
+            App.onDeviceReady();
         }
-    	catch (e) {
-            console.log(e);
+
+        private static bindEvents() {
+            console.log("bindEvents");
+            document.addEventListener("deviceready", this.onDeviceReady, false);
         }
-    }
-}
 
-class FrontController {
-    public user : User;
-    public securityService: ISecurityService;
-
-    public logonViewModel : LgonViewModel;
-    
-
-    constructor(securityService:ISecurityService)
-    {
-        this.user = new User();
-        this.securityService = securityService;
-    }
-
-    public initialize()
-    {
-        if (!this.user.isAuthenticated)
-        {
-            try{
-                
-                $.mobile.changePage("login.html", { transition: "slideup" });
-                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
-                ko.applyBindings(this.logonViewModel);
+        private static onDeviceReady() {
+            console.log("onDeviceReady!!!");
+            try {
+                fc.init();
             }
-            catch(e)
+            catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+    export class FrontController {
+        public user: User;
+
+        public logonViewModel : LogonViewModel;
+        public homeViewModel: HomeViewModel;
+
+        constructor(public securityService: ISecurityService)
+        {
+            this.user = new User();
+            this.logonViewModel = new LogonViewModel(this);
+            this.homeViewModel = new HomeViewModel(this);
+            ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
+            ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
+        }
+
+        public init()
+        {
+            if (!this.user.isAuthenticated)
             {
-                alert(e);
-            }   
+                try
+                {
+                    this.logonViewModel.init();
+                    $.mobile.changePage("#" + LogonViewModel.viewName, { transition: "slideup" });            
+                }
+                catch (e) {
+                    alert(e);
+                }
+            }
         }
     }
-}
 
-class User {
-    public isAuthenticated: bool;
-    public name: string;
-}
-
-interface ISecurityService {
-    authenticate(username: string, password: string): bool;
-}
-
-class SecurityService implements ISecurityService {
-    public authenticate(username: string, password: string): bool {
-        return username == "geobarteam" && password == "starwars";
-    }
-}
-
-class LgonViewModel 
-{
-    constructor(public securityService: ISecurityService, public user : User) {
+    export class User {
+        public isAuthenticated: bool;
+        public name: string;
     }
 
-    public userName = ko.observable("Hello");
-    public password = ko.observable("World");
+    export interface ISecurityService {
+        authenticate(username: string, password: string): bool;
+    }
 
-    public logon() {
-        if (this.securityService.authenticate(this.userName.toString(), this.password.toString())) {
-            this.user.isAuthenticated = true;
-            this.user.name = this.userName.toString();
-            $.mobile.changePage("index.html", { transition: "slideup" });
+    export class SecurityService implements ISecurityService {
+        public authenticate(username: string, password: string): bool {
+            return username == "geobarteam" && password == "starwars";
         }
     }
+
+    export class LogonViewModel
+    {
+        static viewName = "logonView";
+
+        constructor(private fc : FrontController) {
+        }
+
+        public userName = ko.observable("");
+        public password = ko.observable("");
+
+        public init()
+        {
+           this.userName(this.fc.user.name);
+        }
+
+        public logon() {
+            if (this.fc.securityService.authenticate(this.userName(), this.password())) {
+                this.fc.user.isAuthenticated = true;
+                this.fc.user.name = this.userName();
+                this.fc.homeViewModel.Init();
+                $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
+            }
+        }
+    }
+
+    export class HomeViewModel
+    {
+        static viewName = "homeView";
+
+        constructor(private fc: FrontController)
+        {
+        }
+
+        public name = ko.observable("");
+
+        public Init()
+        {
+            this.name(this.fc.user.name);
+        }
+    }
+
 }
-
-
