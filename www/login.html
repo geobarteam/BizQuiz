@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -28,12 +28,9 @@
         <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
         <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
         <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
-        <script type="text/javascript" src="script/bizquiz.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                
-              })
-        </script>
+        <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
+        <script type="text/javascript" src="script/bizzQuiz.js"></script>
+       
     </head>
     <body> 
         <div data-role ="page" id="loginPage">
@@ -41,9 +38,29 @@
                 <h1>Login</h1>
             </div><!-- /header -->
             <div data-role ="content">
-                <div id ="logo">
-                        <p>Logo here</p>
-                </div>    
+                <form id="login_form" method="post">                
+                    <div id ="loginbox">
+                        <div>
+                           <div>
+                               Username: <p data-bind="text: userName" /></p>
+                           </div>
+                           <div>
+                                <input type="text" id="username_txtbox" data-bind="value: userName" />
+                           </div>     
+                        </div>
+                        <div>
+                            <div>
+                               Password:
+                           </div>
+                           <div>
+                                 <input type="password" id="username_password" data-bind="value: password"/>
+                           </div> 
+                        </div>
+                        <div>
+                                <button data-bind="$root.logon" id="logonButton">Logon</button>
+                        </div>
+                    </div>    
+                </form>
                <div id ="menu" class="blink">
                         <p>Login</p>
                 </div>	
