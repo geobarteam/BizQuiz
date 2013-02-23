@@ -33,10 +33,11 @@ var FrontController = (function () {
     FrontController.prototype.initialize = function () {
         if(!this.user.isAuthenticated) {
             try  {
-                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
                 $.mobile.changePage("login.html", {
                     transition: "slideup"
                 });
+                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
+                ko.applyBindings(this.logonViewModel);
             } catch (e) {
                 alert(e);
             }
@@ -59,13 +60,13 @@ var LgonViewModel = (function () {
     function LgonViewModel(securityService, user) {
         this.securityService = securityService;
         this.user = user;
-        this.userName = ko.observable("");
-        this.firstName = ko.observable("");
+        this.userName = ko.observable("Hello");
+        this.password = ko.observable("World");
     }
-    LgonViewModel.prototype.logon = function (username, password) {
-        if(this.securityService.authenticate(username, password)) {
+    LgonViewModel.prototype.logon = function () {
+        if(this.securityService.authenticate(this.userName.toString(), this.password.toString())) {
             this.user.isAuthenticated = true;
-            this.user.name = username;
+            this.user.name = this.userName.toString();
             $.mobile.changePage("index.html", {
                 transition: "slideup"
             });

@@ -31,16 +31,14 @@
         <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
         <script type="text/javascript" src="script/default.js"></script>
         <script type="text/javascript">
-            $(function(){
-                // App.initialize("deviceready");
-                // App.onDeviceReady();
-                $.mobile.loadPage("defaultPage", { transition: "slideup" });
+            
+            $(function () {
                 APP.FrontController.Start();
-              })
+            })
         </script>
     </head>
     <body> 
-        <div data-role ="page" id="indexPage">
+        <div data-role ="page" id="defaultPage">
             <div data-role ="header">
                 <h1>Home</h1>
             </div><!-- /header -->
@@ -48,20 +46,7 @@
                 <div id ="logo">
                         <p>Logo here</p>
                 </div>    
-               <div id ="menu" class="blink">
-                        <p>Menu</p>
-                </div>	
-            </div><!-- /content -->  
-            <div data-role ="footer">
-                
-            </div>    
-        </div><!-- /page -->
-        <div data-role ="page" id="defaultPage">
-            <div data-role ="header">
-                <h1>Home</h1>
-            </div><!-- /header -->
-            <div data-role ="content">
-                <div>
+               <div>
                    <p>First name: <strong data-bind="text: firstname"></strong></p>
                    <p>Last name: <strong data-bind="text: lastname"></strong></p>
                </div>
@@ -71,4 +56,13 @@
             </div>    
         </div><!-- /page -->
     </body>
+</html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+</body>
 </html>

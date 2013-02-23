@@ -49,8 +49,10 @@ class FrontController {
         if (!this.user.isAuthenticated)
         {
             try{
-                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
+                
                 $.mobile.changePage("login.html", { transition: "slideup" });
+                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
+                ko.applyBindings(this.logonViewModel);
             }
             catch(e)
             {
@@ -58,8 +60,6 @@ class FrontController {
             }   
         }
     }
-
-    
 }
 
 class User {
@@ -82,13 +82,13 @@ class LgonViewModel
     constructor(public securityService: ISecurityService, public user : User) {
     }
 
-    public userName = ko.observable("");
-    public firstName = ko.observable("");
+    public userName = ko.observable("Hello");
+    public password = ko.observable("World");
 
-    public logon(username: string, password: string) {
-        if (this.securityService.authenticate(username, password)) {
+    public logon() {
+        if (this.securityService.authenticate(this.userName.toString(), this.password.toString())) {
             this.user.isAuthenticated = true;
-            this.user.name = username;
+            this.user.name = this.userName.toString();
             $.mobile.changePage("index.html", { transition: "slideup" });
         }
     }
