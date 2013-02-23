@@ -1,6 +1,7 @@
 /// <reference path="jquery.d.ts" />
 /// <reference path="phonegap.d.ts" />
 /// <reference path="jquerymobile.d.ts" />
+/// <reference path="knockout.d.ts" />
 var App = (function () {
     function App() { }
     App.initialize = function initialize(deviceReadyId) {
@@ -31,15 +32,15 @@ var FrontController = (function () {
     }
     FrontController.prototype.initialize = function () {
         if(!this.user.isAuthenticated) {
-            $.mobile.changePage("login.html", {
-                transition: "slideup"
-            });
-        }
-    };
-    FrontController.prototype.logon = function (username, password) {
-        if(this.securityService.authenticate(username, password)) {
-            this.user.isAuthenticated = true;
-            this.user.name = username;
+            try  {
+                $.mobile.changePage("login.html", {
+                    transition: "slideup"
+                });
+                this.logonViewModel = new LgonViewModel(this.securityService, this.user);
+                ko.applyBindings(this.logonViewModel);
+            } catch (e) {
+                alert(e);
+            }
         }
     };
     return FrontController;
@@ -54,5 +55,23 @@ var SecurityService = (function () {
         return username == "geobarteam" && password == "starwars";
     };
     return SecurityService;
+})();
+var LgonViewModel = (function () {
+    function LgonViewModel(securityService, user) {
+        this.securityService = securityService;
+        this.user = user;
+        this.userName = ko.observable("Hello");
+        this.password = ko.observable("World");
+    }
+    LgonViewModel.prototype.logon = function () {
+        if(this.securityService.authenticate(this.userName.toString(), this.password.toString())) {
+            this.user.isAuthenticated = true;
+            this.user.name = this.userName.toString();
+            $.mobile.changePage("index.html", {
+                transition: "slideup"
+            });
+        }
+    };
+    return LgonViewModel;
 })();
 //@ sourceMappingURL=bizzQuiz.js.map
