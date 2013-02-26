@@ -48,6 +48,11 @@ module BizzQuiz {
 
         public init()
         {
+            var userStringified = window.localStorage.getItem("user");
+            if (userStringified != undefined) {
+                this.user = JSON.parse(userStringified);
+            }
+
             if (!this.user.isAuthenticated)
             {
                 try
@@ -90,7 +95,6 @@ module BizzQuiz {
 
         public init()
         {
-           this.userName(this.fc.user.name);
         }
 
         public logon()
@@ -99,6 +103,10 @@ module BizzQuiz {
             {
                 this.fc.user.isAuthenticated = true;
                 this.fc.user.name = this.userName();
+
+                var userStingified = JSON.stringify(this.fc.user);
+                window.localStorage.setItem("user", userStingified);
+
                 this.fc.homeViewModel.Init();
                 $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
             }

@@ -37,6 +37,10 @@ var BizzQuiz;
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
         }
         FrontController.prototype.init = function () {
+            var userStringified = window.localStorage.getItem("user");
+            if(userStringified != undefined) {
+                this.user = JSON.parse(userStringified);
+            }
             if(!this.user.isAuthenticated) {
                 try  {
                     this.logonViewModel.init();
@@ -72,12 +76,13 @@ var BizzQuiz;
         }
         LogonViewModel.viewName = "logonView";
         LogonViewModel.prototype.init = function () {
-            this.userName(this.fc.user.name);
         };
         LogonViewModel.prototype.logon = function () {
             if(this.fc.securityService.authenticate(this.userName(), this.password())) {
                 this.fc.user.isAuthenticated = true;
                 this.fc.user.name = this.userName();
+                var userStingified = JSON.stringify(this.fc.user);
+                window.localStorage.setItem("user", userStingified);
                 this.fc.homeViewModel.Init();
                 $.mobile.changePage("#" + HomeViewModel.viewName, {
                     transition: "slideup"
