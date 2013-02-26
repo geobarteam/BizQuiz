@@ -9,8 +9,8 @@ var BizzQuiz;
         App.initialize = function initialize() {
             console.log("Initialize");
             App.fc = new FrontController(new SecurityService());
-            // this.bindEvents();
-            App.onDeviceReady();
+            this.bindEvents();
+            //App.onDeviceReady();
         };
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
