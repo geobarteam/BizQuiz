@@ -81,7 +81,8 @@ module BizzQuiz {
     {
         static viewName = "logonView";
 
-        constructor(private fc : FrontController) {
+        constructor(private fc: FrontController)
+        {
         }
 
         public userName = ko.observable("");
@@ -92,8 +93,10 @@ module BizzQuiz {
            this.userName(this.fc.user.name);
         }
 
-        public logon() {
-            if (this.fc.securityService.authenticate(this.userName(), this.password())) {
+        public logon()
+        {
+            if (this.fc.securityService.authenticate(this.userName(), this.password()))
+            {
                 this.fc.user.isAuthenticated = true;
                 this.fc.user.name = this.userName();
                 this.fc.homeViewModel.Init();
