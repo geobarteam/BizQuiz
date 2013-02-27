@@ -25,11 +25,12 @@
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Hello World</title>
-    <script type="text/javascript" src="script/cordova-2.3.0.js"></script>
-    <script type="text/javascript" src="script/jquery-1.8.2.js"></script>
-    <script type="text/javascript" src="script/jquery.mobile-1.2.0.js"></script>
-    <script type="text/javascript" src="script/knockout-2.2.1.js"></script>
-    <script type="text/javascript" src="script/bizzQuiz.js"></script>
+    <script type="text/javascript" src="scripts/cordova-2.3.0.js"></script>
+    <script type="text/javascript" src="scripts/jquery-1.8.2.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.mobile-1.2.0.js"></script>
+    <script type="text/javascript" src="scripts/knockout-2.2.1.js"></script>
+    <script type="text/javascript" src="scripts/bizzQuiz.js"></script>
     <script type="text/javascript">
         $(function () {
             BizzQuiz.App.initialize();
@@ -39,11 +40,11 @@
 <body>
 
     <div data-role="page" id="homeView">
-        <div data-role="header">
+        <div data-role="header" data-theme="b">
             <h1>Home</h1>
         </div>
         <!-- /header -->
-        <div data-role="content">
+        <div data-role="content" data-theme="d">
             <div id="logo">
                 <p>Logo here</p>
             </div>
@@ -55,43 +56,43 @@
             </div>
         </div>
         <!-- /content -->
-        <div data-role="footer">
+        <div data-role="footer" data-theme="b">
         </div>
     </div>
     <!-- /page -->
 
     <div data-role="page" id="logonView">
-        <div data-role="header">
+        <div data-role="header" data-theme="b">
             <h1>Home</h1>
         </div>
         <!-- /header -->
-        <div data-role="content">
+        <div data-role="content" data-theme="d">
             <div id="loginbox">
-                <form data-bind="submit: logon" data-ajax="false">
-                    <div>
-                        <div>
+                <form id="logonForm" data-bind="submit: logon" data-ajax="false">
+                    <fieldset data-role="fieldcontain" >
+                        <label for="userName">
                             Username: 
-                        </div>
+                        </label>
                         <div>
-                            <input type="text" id="userName" data-bind="value: userName" />
+                            <input type="text" id="userName" data-bind="value: userName"  />
                         </div>
-                    </div>
-                    <div>
-                        Password:
-                    </div>
-                    <div>
-                        <input type="password" id="password" data-bind="value: password" />
-                    </div>
-
-                    <div>
-                        <button id="submitButton">Logon</button>
-                    </div>
+                    </fieldset>
+                    <fieldset data-role="fieldcontain" >
+                        <label for="password">
+                            Password:
+                        </label>
+                        <div>
+                            <input type="password" id="password" data-bind="value: password"  />
+                        </div>
+                    </fieldset>
+                        <input type="submit" id="submitButton" value="Logon" />
                 </form>
             </div>
-            <div data-role="footer">
+            <div data-role="footer" data-theme="b">
             </div>
             <!-- /content -->
         </div>
-        <!-- /page -->
+    </div>
+    <!-- /page -->
 </body>
 </html>

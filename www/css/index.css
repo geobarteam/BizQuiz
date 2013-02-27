@@ -113,3 +113,12 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+
+label.error { 
+	float: left; 
+	color: red; 
+	padding-top: .5em; 
+	vertical-align: top; 
+	font-weight:bold
+}

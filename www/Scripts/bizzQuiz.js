@@ -2,6 +2,7 @@
 /// <reference path="phonegap.d.ts" />
 /// <reference path="jquerymobile.d.ts" />
 /// <reference path="knockout.d.ts" />
+/// <reference path="jquery.validate.d.ts" />
 var BizzQuiz;
 (function (BizzQuiz) {
     var App = (function () {
@@ -9,8 +10,8 @@ var BizzQuiz;
         App.initialize = function initialize() {
             console.log("Initialize");
             App.fc = new FrontController(new SecurityService());
-            this.bindEvents();
-            //App.onDeviceReady();
+            // this.bindEvents();
+            App.onDeviceReady();
         };
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
@@ -78,16 +79,43 @@ var BizzQuiz;
         LogonViewModel.prototype.init = function () {
         };
         LogonViewModel.prototype.logon = function () {
-            if(this.fc.securityService.authenticate(this.userName(), this.password())) {
-                this.fc.user.isAuthenticated = true;
-                this.fc.user.name = this.userName();
-                var userStingified = JSON.stringify(this.fc.user);
-                window.localStorage.setItem("user", userStingified);
-                this.fc.homeViewModel.Init();
-                $.mobile.changePage("#" + HomeViewModel.viewName, {
-                    transition: "slideup"
-                });
-            }
+            var _this = this;
+            $("#logonForm").validate({
+                submitHandler: function () {
+                    if(_this.fc.securityService.authenticate(_this.userName(), _this.password())) {
+                        _this.fc.user.isAuthenticated = true;
+                        _this.fc.user.name = _this.userName();
+                        var userStingified = JSON.stringify(_this.fc.user);
+                        window.localStorage.setItem("user", userStingified);
+                        _this.fc.homeViewModel.Init();
+                        $.mobile.changePage("#" + HomeViewModel.viewName, {
+                            transition: "slideup"
+                        });
+                    }
+                },
+                rules: function () {
+                    rules:
+(function () {
+                        password:
+(function () {
+                            required:
+true
+                            minlength:
+5
+                        });
+
+                        userName:
+(function () {
+                            required:
+true
+                            minlength:
+5
+                        });
+
+                    });
+
+                }
+            });
         };
         return LogonViewModel;
     })();

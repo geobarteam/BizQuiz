@@ -2,6 +2,7 @@
 /// <reference path="phonegap.d.ts" />
 /// <reference path="jquerymobile.d.ts" />
 /// <reference path="knockout.d.ts" />
+/// <reference path="jquery.validate.d.ts" />
 
 module BizzQuiz {
 
@@ -97,19 +98,29 @@ module BizzQuiz {
         {
         }
 
-        public logon()
-        {
-            if (this.fc.securityService.authenticate(this.userName(), this.password()))
-            {
-                this.fc.user.isAuthenticated = true;
-                this.fc.user.name = this.userName();
+        public logon() {
+            $("#logonForm").validate({
+                submitHandler: () => {
+                    if (this.fc.securityService.authenticate(this.userName(), this.password())) {
+                        this.fc.user.isAuthenticated = true;
+                        this.fc.user.name = this.userName();
 
-                var userStingified = JSON.stringify(this.fc.user);
-                window.localStorage.setItem("user", userStingified);
+                        var userStingified = JSON.stringify(this.fc.user);
+                        window.localStorage.setItem("user", userStingified);
 
-                this.fc.homeViewModel.Init();
-                $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
-            }
+                        this.fc.homeViewModel.Init();
+                        $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
+                    }
+                },
+                rules: () => {
+                    rules:()=> {
+                        password: () => { required: true; minlength: 5 };
+                        userName: () => { required: true; minlength: 5 };
+                    }
+                }
+        } );
+            
+            
         }
     }
 
