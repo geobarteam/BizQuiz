@@ -74,7 +74,7 @@
                             Username: 
                         </label>
                         <div>
-                            <input type="text" id="userName" data-bind="value: userName"  />
+                            <input type="text" id="userName" data-bind="value: userName" class="required" minlength="5"  />
                         </div>
                     </fieldset>
                     <fieldset data-role="fieldcontain" >
@@ -82,7 +82,7 @@
                             Password:
                         </label>
                         <div>
-                            <input type="password" id="password" data-bind="value: password"  />
+                            <input type="password" id="password" data-bind="value: password" class="required" minlength="5" />
                         </div>
                     </fieldset>
                         <input type="submit" id="submitButton" value="Logon" />

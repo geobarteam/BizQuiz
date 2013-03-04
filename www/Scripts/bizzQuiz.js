@@ -94,24 +94,20 @@ var BizzQuiz;
                     }
                 },
                 rules: function () {
-                    rules:
+                    password:
 (function () {
-                        password:
-(function () {
-                            required:
+                        required:
 true
-                            minlength:
+                        minlength:
 5
-                        });
+                    });
 
-                        userName:
+                    userName:
 (function () {
-                            required:
+                        required:
 true
-                            minlength:
+                        minlength:
 5
-                        });
-
                     });
 
                 }

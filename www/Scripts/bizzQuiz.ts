@@ -112,12 +112,11 @@ module BizzQuiz {
                         $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
                     }
                 },
-                rules: () => {
-                    rules:()=> {
-                        password: () => { required: true; minlength: 5 };
-                        userName: () => { required: true; minlength: 5 };
-                    }
+                rules:()=> {
+                    password: () => { required: true; minlength: 5 };
+                    userName: () => { required: true; minlength: 5 };
                 }
+                
         } );
             
             
