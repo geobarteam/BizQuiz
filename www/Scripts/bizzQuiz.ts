@@ -6,6 +6,7 @@
 
 module BizzQuiz {
 
+    //--------------App---------------------
     export class App {
         static fc: FrontController;
 
@@ -32,6 +33,7 @@ module BizzQuiz {
         }
     }
 
+    //-----------FrontController------------------
     export class FrontController {
         public user: User;
 
@@ -61,14 +63,18 @@ module BizzQuiz {
                     alert(e);
                 }
             }
+
+            this.homeViewModel.Init();
         }
     }
 
+    //---------------------Models----------------
     export class User {
         public isAuthenticated: bool;
         public name: string;
     }
 
+    //---------------------Services---------------
     export interface ISecurityService {
         authenticate(username: string, password: string): bool;
     }
@@ -79,6 +85,7 @@ module BizzQuiz {
         }
     }
 
+    //--------------------ViewModels-------------------
     export class LogonViewModel {
         static viewName = "logonView";
 
