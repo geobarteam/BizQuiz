@@ -69,6 +69,9 @@
         <div data-role="content" data-theme="d">
             <div id="loginbox">
                 <form id="logonForm" data-bind="submit: logon" data-ajax="false">
+                    <div data-bind="visible: showWrongPassword" class="errormessage">
+                                Wrong username or password!
+                    </div>
                     <fieldset data-role="fieldcontain" >
                         <label for="userName">
                             Username: 

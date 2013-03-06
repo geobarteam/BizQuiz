@@ -35,11 +35,10 @@ module BizzQuiz {
     export class FrontController {
         public user: User;
 
-        public logonViewModel : LogonViewModel;
+        public logonViewModel: LogonViewModel;
         public homeViewModel: HomeViewModel;
 
-        constructor(public securityService: ISecurityService)
-        {
+        constructor(public securityService: ISecurityService) {
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
@@ -47,19 +46,16 @@ module BizzQuiz {
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
         }
 
-        public init()
-        {
+        public init() {
             var userStringified = window.localStorage.getItem("user");
             if (userStringified != undefined) {
                 this.user = JSON.parse(userStringified);
             }
 
-            if (!this.user.isAuthenticated)
-            {
-                try
-                {
+            if (!this.user.isAuthenticated) {
+                try {
                     this.logonViewModel.init();
-                    $.mobile.changePage("#" + LogonViewModel.viewName, { transition: "slideup" });            
+                    $.mobile.changePage("#" + LogonViewModel.viewName, { transition: "slideup" });
                 }
                 catch (e) {
                     alert(e);
@@ -83,19 +79,17 @@ module BizzQuiz {
         }
     }
 
-    export class LogonViewModel
-    {
+    export class LogonViewModel {
         static viewName = "logonView";
 
-        constructor(private fc: FrontController)
-        {
+        constructor(private fc: FrontController) {
         }
 
         public userName = ko.observable("");
         public password = ko.observable("");
+        public showWrongPassword = ko.observable(false);
 
-        public init()
-        {
+        public init() {
         }
 
         public logon() {
@@ -111,30 +105,29 @@ module BizzQuiz {
                         this.fc.homeViewModel.Init();
                         $.mobile.changePage("#" + HomeViewModel.viewName, { transition: "slideup" });
                     }
+                    else
+                    {
+                        this.showWrongPassword(true);
+                    }
                 },
-                rules:()=> {
+                rules: () => {
                     password: () => { required: true; minlength: 5 };
                     userName: () => { required: true; minlength: 5 };
                 }
-                
-        } );
-            
-            
+
+            });
         }
     }
 
-    export class HomeViewModel
-    {
+    export class HomeViewModel {
         static viewName = "homeView";
 
-        constructor(private fc: FrontController)
-        {
+        constructor(private fc: FrontController) {
         }
 
         public name = ko.observable("");
 
-        public Init()
-        {
+        public Init() {
             this.name(this.fc.user.name);
         }
     }

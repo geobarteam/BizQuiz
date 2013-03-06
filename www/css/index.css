@@ -114,8 +114,7 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-
-label.error { 
+label.error, .errormessage { 
 	float: left; 
 	color: red; 
 	padding-top: .5em; 

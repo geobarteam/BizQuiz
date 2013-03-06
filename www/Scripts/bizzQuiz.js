@@ -74,6 +74,7 @@ var BizzQuiz;
             this.fc = fc;
             this.userName = ko.observable("");
             this.password = ko.observable("");
+            this.showWrongPassword = ko.observable(false);
         }
         LogonViewModel.viewName = "logonView";
         LogonViewModel.prototype.init = function () {
@@ -91,6 +92,8 @@ var BizzQuiz;
                         $.mobile.changePage("#" + HomeViewModel.viewName, {
                             transition: "slideup"
                         });
+                    } else {
+                        _this.showWrongPassword(true);
                     }
                 },
                 rules: function () {
