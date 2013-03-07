@@ -1,23 +1,17 @@
-/// <reference path="jquery.d.ts" />
-/// <reference path="phonegap.d.ts" />
-/// <reference path="jquerymobile.d.ts" />
-/// <reference path="knockout.d.ts" />
-/// <reference path="jquery.validate.d.ts" />
 var BizzQuiz;
 (function (BizzQuiz) {
-    //--------------App---------------------
     var App = (function () {
         function App() { }
+        App.fc = null;
         App.initialize = function initialize() {
             console.log("Initialize");
             App.fc = new FrontController(new SecurityService());
-            // this.bindEvents();
             App.onDeviceReady();
-        };
+        }
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
             document.addEventListener("deviceready", this.onDeviceReady, false);
-        };
+        }
         App.onDeviceReady = function onDeviceReady() {
             console.log("onDeviceReady!!!");
             try  {
@@ -25,11 +19,10 @@ var BizzQuiz;
             } catch (e) {
                 console.log(e);
             }
-        };
+        }
         return App;
     })();
     BizzQuiz.App = App;    
-    //-----------FrontController------------------
     var FrontController = (function () {
         function FrontController(securityService) {
             this.securityService = securityService;
@@ -59,7 +52,6 @@ var BizzQuiz;
         return FrontController;
     })();
     BizzQuiz.FrontController = FrontController;    
-    //---------------------Models----------------
     var User = (function () {
         function User() { }
         return User;
@@ -73,7 +65,6 @@ var BizzQuiz;
         return SecurityService;
     })();
     BizzQuiz.SecurityService = SecurityService;    
-    //--------------------ViewModels-------------------
     var LogonViewModel = (function () {
         function LogonViewModel(fc) {
             this.fc = fc;
@@ -103,21 +94,19 @@ var BizzQuiz;
                 },
                 rules: function () {
                     password:
-(function () {
+function () {
                         required:
 true
                         minlength:
 5
-                    });
-
+                    }
                     userName:
-(function () {
+function () {
                         required:
 true
                         minlength:
 5
-                    });
-
+                    }
                 }
             });
         };
@@ -137,4 +126,4 @@ true
     })();
     BizzQuiz.HomeViewModel = HomeViewModel;    
 })(BizzQuiz || (BizzQuiz = {}));
-//@ sourceMappingURL=bizzQuiz.js.map
+
