@@ -38,7 +38,7 @@
     </script>
 </head>
 <body>
-
+    <!-- Home -->
     <div data-role="page" id="homeView">
         <div data-role="header" data-theme="b">
             <h1>Home</h1>
@@ -46,13 +46,17 @@
         <!-- /header -->
         <div data-role="content" data-theme="d">
             <div id="logo">
-                <p>Logo here</p>
+                
             </div>
             <div id="menu" class="blink">
-                <p>Menu</p>
+            
             </div>
             <div>
-                <p>Name: <strong data-bind="text: name"></strong></p>
+                <ul data-role="listview">
+                    <li id="newsButton" data-bind="click: NewsClick">News</a></li>
+                    <li>Calendar</a></li>
+                    <li>Quiz</a></li>
+                </ul>
             </div>
         </div>
         <!-- /content -->
@@ -60,7 +64,7 @@
         </div>
     </div>
     <!-- /page -->
-
+    <!-- Logon -->
     <div data-role="page" id="logonView">
         <div data-role="header" data-theme="b">
             <h1>Home</h1>
@@ -94,6 +98,22 @@
             <div data-role="footer" data-theme="b">
             </div>
             <!-- /content -->
+            <!-- News -->
+            <div data-role="page" id="newsView">
+                <div data-role="header" data-theme="b">
+                    <h1>News</h1>
+                </div>
+                <!-- /header -->
+                <div data-role="content" data-theme="d">
+                    <div>
+                        
+                    </div>
+                </div>
+                <!-- /content -->
+                <div data-role="footer" data-theme="b">
+                </div>
+            </div>
+            <!-- /page -->
         </div>
     </div>
     <!-- /page -->

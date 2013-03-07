@@ -13,14 +13,16 @@ module BizzQuiz {
         static initialize() {
             console.log("Initialize");
             fc = new FrontController(new SecurityService());
-            // this.bindEvents();
-            App.onDeviceReady();
+            this.bindEvents();
+            //App.onDeviceReady();
         }
 
         private static bindEvents() {
             console.log("bindEvents");
             document.addEventListener("deviceready", this.onDeviceReady, false);
         }
+
+
 
         private static onDeviceReady() {
             console.log("onDeviceReady!!!");
@@ -49,6 +51,7 @@ module BizzQuiz {
         }
 
         public init() {
+            this.configureCrossDomainRequests();
             var userStringified = window.localStorage.getItem("user");
             if (userStringified != undefined) {
                 this.user = JSON.parse(userStringified);
@@ -65,6 +68,11 @@ module BizzQuiz {
             }
 
             this.homeViewModel.Init();
+        }
+
+        private configureCrossDomainRequests(){
+            $.mobile.allowCrossDomainPages = true;
+            $.support.cors = true;
         }
     }
 
@@ -132,11 +140,21 @@ module BizzQuiz {
         constructor(private fc: FrontController) {
         }
 
-        public name = ko.observable("");
-
         public Init() {
-            this.name(this.fc.user.name);
+        }
+
+        public NewsClick() {
+            $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });
         }
     }
 
+    export class NewsViewModel {
+        static viewName = "newsView";
+
+        constructor(private fc: FrontController) {
+        }
+
+        public Init() {
+        }
+    }
 }

@@ -2,16 +2,15 @@ var BizzQuiz;
 (function (BizzQuiz) {
     var App = (function () {
         function App() { }
-        App.fc = null;
         App.initialize = function initialize() {
             console.log("Initialize");
             App.fc = new FrontController(new SecurityService());
-            App.onDeviceReady();
-        }
+            this.bindEvents();
+        };
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
             document.addEventListener("deviceready", this.onDeviceReady, false);
-        }
+        };
         App.onDeviceReady = function onDeviceReady() {
             console.log("onDeviceReady!!!");
             try  {
@@ -19,7 +18,7 @@ var BizzQuiz;
             } catch (e) {
                 console.log(e);
             }
-        }
+        };
         return App;
     })();
     BizzQuiz.App = App;    
@@ -33,6 +32,7 @@ var BizzQuiz;
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
         }
         FrontController.prototype.init = function () {
+            this.configureCrossDomainRequests();
             var userStringified = window.localStorage.getItem("user");
             if(userStringified != undefined) {
                 this.user = JSON.parse(userStringified);
@@ -48,6 +48,10 @@ var BizzQuiz;
                 }
             }
             this.homeViewModel.Init();
+        };
+        FrontController.prototype.configureCrossDomainRequests = function () {
+            $.mobile.allowCrossDomainPages = true;
+            $.support.cors = true;
         };
         return FrontController;
     })();
@@ -94,19 +98,21 @@ var BizzQuiz;
                 },
                 rules: function () {
                     password:
-function () {
+(function () {
                         required:
 true
                         minlength:
 5
-                    }
+                    });
+
                     userName:
-function () {
+(function () {
                         required:
 true
                         minlength:
 5
-                    }
+                    });
+
                 }
             });
         };
@@ -116,14 +122,26 @@ true
     var HomeViewModel = (function () {
         function HomeViewModel(fc) {
             this.fc = fc;
-            this.name = ko.observable("");
         }
         HomeViewModel.viewName = "homeView";
         HomeViewModel.prototype.Init = function () {
-            this.name(this.fc.user.name);
+        };
+        HomeViewModel.prototype.NewsClick = function () {
+            $.mobile.changePage("#" + NewsViewModel.viewName, {
+                transition: "slideup"
+            });
         };
         return HomeViewModel;
     })();
     BizzQuiz.HomeViewModel = HomeViewModel;    
+    var NewsViewModel = (function () {
+        function NewsViewModel(fc) {
+            this.fc = fc;
+        }
+        NewsViewModel.viewName = "newsView";
+        NewsViewModel.prototype.Init = function () {
+        };
+        return NewsViewModel;
+    })();
+    BizzQuiz.NewsViewModel = NewsViewModel;    
 })(BizzQuiz || (BizzQuiz = {}));
-
