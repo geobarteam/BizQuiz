@@ -144,7 +144,15 @@ module BizzQuiz {
         }
 
         public NewsClick() {
-            $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });
+            console.log("NewsClick");
+            try
+            {
+                $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });   
+            }
+            catch(e)
+            {
+                console.log(e);
+            }
         }
     }
 

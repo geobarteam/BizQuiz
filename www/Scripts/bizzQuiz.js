@@ -127,9 +127,14 @@ true
         HomeViewModel.prototype.Init = function () {
         };
         HomeViewModel.prototype.NewsClick = function () {
-            $.mobile.changePage("#" + NewsViewModel.viewName, {
-                transition: "slideup"
-            });
+            console.log("NewsClick");
+            try  {
+                $.mobile.changePage("#" + NewsViewModel.viewName, {
+                    transition: "slideup"
+                });
+            } catch (e) {
+                console.log(e);
+            }
         };
         return HomeViewModel;
     })();
