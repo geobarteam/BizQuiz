@@ -1,5 +1,11 @@
+/// <reference path="jquery.d.ts" />
+/// <reference path="phonegap.d.ts" />
+/// <reference path="jquerymobile.d.ts" />
+/// <reference path="knockout.d.ts" />
+/// <reference path="jquery.validate.d.ts" />
 var BizzQuiz;
 (function (BizzQuiz) {
+    //--------------App---------------------
     var App = (function () {
         function App() { }
         App.initialize = function initialize() {
@@ -7,7 +13,8 @@ var BizzQuiz;
             App.addGeneralErrorHandler();
             App.fc = new FrontController(new SecurityService());
             this.bindEvents();
-        };
+            //App.onDeviceReady();
+                    };
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
             document.addEventListener("deviceready", this.onDeviceReady, false);
@@ -22,14 +29,21 @@ var BizzQuiz;
         };
         App.addGeneralErrorHandler = function addGeneralErrorHandler() {
             window.onerror = function (msg, url, line) {
+                // You can view the information in an alert to see things working
+                // like so:
                 console.log("Error: " + msg + "\nurl: " + url + "\nline #: " + line);
+                // TODO: Report this error via ajax so you can keep track
+                //       of what pages have JS issues
                 var suppressErrorAlert = false;
+                // If you return true, then error alerts (like in older versions of
+                // Internet Explorer) will be suppressed.
                 return suppressErrorAlert;
             };
         };
         return App;
     })();
     BizzQuiz.App = App;    
+    //-----------FrontController------------------
     var FrontController = (function () {
         function FrontController(securityService) {
             this.securityService = securityService;
@@ -60,6 +74,7 @@ var BizzQuiz;
         return FrontController;
     })();
     BizzQuiz.FrontController = FrontController;    
+    //---------------------Models----------------
     var User = (function () {
         function User() { }
         return User;
@@ -73,6 +88,15 @@ var BizzQuiz;
         return SecurityService;
     })();
     BizzQuiz.SecurityService = SecurityService;    
+    var DataService = (function () {
+        function DataService() { }
+        DataService.prototype.getNewsList = function () {
+            throw "Notimplented";
+        };
+        return DataService;
+    })();
+    BizzQuiz.DataService = DataService;    
+    //--------------------ViewModels-------------------
     var LogonViewModel = (function () {
         function LogonViewModel(fc) {
             this.fc = fc;
@@ -142,6 +166,7 @@ true
     var NewsViewModel = (function () {
         function NewsViewModel(fc) {
             this.fc = fc;
+            this.newList = ko.observable(new Array());
         }
         NewsViewModel.viewName = "newsView";
         NewsViewModel.prototype.Init = function () {
@@ -149,4 +174,11 @@ true
         return NewsViewModel;
     })();
     BizzQuiz.NewsViewModel = NewsViewModel;    
+    //-----------------Models--------------------
+    var News = (function () {
+        function News() { }
+        return News;
+    })();
+    BizzQuiz.News = News;    
 })(BizzQuiz || (BizzQuiz = {}));
+//@ sourceMappingURL=bizzQuiz.js.map

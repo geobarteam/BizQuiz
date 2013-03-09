@@ -95,7 +95,11 @@ module BizzQuiz {
 
     //---------------------Services---------------
     export interface ISecurityService {
-        authenticate(username: string, password: string): bool;
+        authenticate(username: string, password: string) : bool;
+    }
+
+    export interface IDataService {
+        getNewsList(): News[];
     }
 
     export class SecurityService implements ISecurityService {
@@ -103,6 +107,13 @@ module BizzQuiz {
             return username == "geobarteam" && password == "starwars";
         }
     }
+
+    export class DataService implements IDataService {
+        public getNewsList(): News[]{
+            throw "Notimplented";
+        }
+    }
+
 
     //--------------------ViewModels-------------------
     export class LogonViewModel {
@@ -163,7 +174,7 @@ module BizzQuiz {
     export class NewsViewModel {
         static viewName = "newsView";
 
-        
+        public newList = ko.observable(new News[]);
 
         constructor(private fc: FrontController) {
         }
@@ -171,5 +182,15 @@ module BizzQuiz {
         public Init() {
            
         }
+    }
+
+
+    //-----------------Models--------------------
+    export class News {
+        public date : Date;
+        public count : number;
+        public title : string;
+        public lines: string[];
+        public time: Date;
     }
 }
