@@ -1,26 +1,34 @@
 /// <reference path="tsUnit.ts" />
 /// <reference path="../bizzQuiz.ts" />
+module Unit {
+    export class Tests extends tsUnit.TestClass {
 
-class UnitTests extends tsUnit.TestClass {
+        private target = new BizzQuiz.News();
 
-    private target = new BizzQuiz.News();
+        canSetLines() {
+            this.target.lines = new string[];
+            this.target.lines.push("This is the first line.");
+            this.target.lines.push("This is the second line that is longer as the first.");
 
-    canSetDate() {
-        var result = this.target.date = new Date(2013, 12, 1);
+            this.areIdentical(2, this.target.lines.length);
+        }
 
-        this.areIdentical(new Date(2013, 12, 1), result);
-    }
+        canSetDate() {
+            var result = this.target.date = new Date(2013, 12-1, 1);
+            this.areIdentical("1/12/2013", result.toLocaleDateString());
+        }
 
-    public static run()
-    {
-        // new instance of tsUnit
-        var test = new tsUnit.Test();
+        public static run() {
+            // new instance of tsUnit
+            var test = new tsUnit.Test();
 
-        test.addTestClass(new UnitTests());
+            test.addTestClass(new Unit.Tests());
 
-        // Use the built in results display
-        test.showResults(document.getElementById('results'), test.run());
+            // Use the built in results display
+            test.showResults(document.getElementById('results'), test.run());
+        }
     }
 }
+
 
 
