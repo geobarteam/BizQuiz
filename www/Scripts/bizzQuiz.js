@@ -4,6 +4,7 @@ var BizzQuiz;
         function App() { }
         App.initialize = function initialize() {
             console.log("Initialize");
+            App.addGeneralErrorHandler();
             App.fc = new FrontController(new SecurityService());
             this.bindEvents();
         };
@@ -18,6 +19,13 @@ var BizzQuiz;
             } catch (e) {
                 console.log(e);
             }
+        };
+        App.addGeneralErrorHandler = function addGeneralErrorHandler() {
+            window.onerror = function (msg, url, line) {
+                console.log("Error: " + msg + "\nurl: " + url + "\nline #: " + line);
+                var suppressErrorAlert = false;
+                return suppressErrorAlert;
+            };
         };
         return App;
     })();
@@ -38,14 +46,10 @@ var BizzQuiz;
                 this.user = JSON.parse(userStringified);
             }
             if(!this.user.isAuthenticated) {
-                try  {
-                    this.logonViewModel.init();
-                    $.mobile.changePage("#" + LogonViewModel.viewName, {
-                        transition: "slideup"
-                    });
-                } catch (e) {
-                    alert(e);
-                }
+                this.logonViewModel.init();
+                $.mobile.changePage("#" + LogonViewModel.viewName, {
+                    transition: "slideup"
+                });
             }
             this.homeViewModel.Init();
         };
@@ -128,13 +132,9 @@ true
         };
         HomeViewModel.prototype.NewsClick = function () {
             console.log("NewsClick");
-            try  {
-                $.mobile.changePage("#" + NewsViewModel.viewName, {
-                    transition: "slideup"
-                });
-            } catch (e) {
-                console.log(e);
-            }
+            $.mobile.changePage("#" + NewsViewModel.viewName, {
+                transition: "slideup"
+            });
         };
         return HomeViewModel;
     })();

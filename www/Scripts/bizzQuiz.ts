@@ -12,6 +12,7 @@ module BizzQuiz {
 
         static initialize() {
             console.log("Initialize");
+            App.addGeneralErrorHandler();
             fc = new FrontController(new SecurityService());
             this.bindEvents();
             //App.onDeviceReady();
@@ -22,8 +23,6 @@ module BizzQuiz {
             document.addEventListener("deviceready", this.onDeviceReady, false);
         }
 
-
-
         private static onDeviceReady() {
             console.log("onDeviceReady!!!");
             try {
@@ -32,6 +31,23 @@ module BizzQuiz {
             catch (e) {
                 console.log(e);
             }
+        }
+
+        private static addGeneralErrorHandler()
+        {
+            window.onerror = function(msg, url, line) {
+               // You can view the information in an alert to see things working
+               // like so:
+               console.log("Error: " + msg + "\nurl: " + url + "\nline #: " + line);
+
+               // TODO: Report this error via ajax so you can keep track
+               //       of what pages have JS issues
+
+               var suppressErrorAlert = false;
+               // If you return true, then error alerts (like in older versions of 
+               // Internet Explorer) will be suppressed.
+               return suppressErrorAlert;
+            };
         }
     }
 
@@ -58,13 +74,8 @@ module BizzQuiz {
             }
 
             if (!this.user.isAuthenticated) {
-                try {
-                    this.logonViewModel.init();
-                    $.mobile.changePage("#" + LogonViewModel.viewName, { transition: "slideup" });
-                }
-                catch (e) {
-                    alert(e);
-                }
+                this.logonViewModel.init();
+                $.mobile.changePage("#" + LogonViewModel.viewName, { transition: "slideup" });
             }
 
             this.homeViewModel.Init();
@@ -145,24 +156,20 @@ module BizzQuiz {
 
         public NewsClick() {
             console.log("NewsClick");
-            try
-            {
-                $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });   
-            }
-            catch(e)
-            {
-                console.log(e);
-            }
+            $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });   
         }
     }
 
     export class NewsViewModel {
         static viewName = "newsView";
 
+        
+
         constructor(private fc: FrontController) {
         }
 
         public Init() {
+           
         }
     }
 }
