@@ -187,10 +187,10 @@ module BizzQuiz {
 
     //-----------------Models--------------------
     export class News {
-        public date : Date;
-        public count : number;
-        public title : string;
-        public lines: string[];
-        public time: Date;
+        public date = new Date();
+        public count = 0;
+        public title = "";
+        public lines = new string[];
+        public time = new Date();
     }
 }

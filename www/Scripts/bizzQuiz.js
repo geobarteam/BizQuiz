@@ -176,7 +176,13 @@ true
     BizzQuiz.NewsViewModel = NewsViewModel;    
     //-----------------Models--------------------
     var News = (function () {
-        function News() { }
+        function News() {
+            this.date = new Date();
+            this.count = 0;
+            this.title = "";
+            this.lines = new Array();
+            this.time = new Date();
+        }
         return News;
     })();
     BizzQuiz.News = News;    
