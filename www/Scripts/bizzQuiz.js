@@ -1,8 +1,8 @@
-/// <reference path="jquery.d.ts" />
-/// <reference path="phonegap.d.ts" />
-/// <reference path="jquerymobile.d.ts" />
-/// <reference path="knockout.d.ts" />
-/// <reference path="jquery.validate.d.ts" />
+/// <reference path="libs/jquery.d.ts" />
+/// <reference path="libs/phonegap.d.ts" />
+/// <reference path="libs/jquerymobile.d.ts" />
+/// <reference path="libs/knockout.d.ts" />
+/// <reference path="libs/jquery.validate.d.ts" />
 var BizzQuiz;
 (function (BizzQuiz) {
     //--------------App---------------------
@@ -169,7 +169,8 @@ true
             this.newList = ko.observable(new Array());
         }
         NewsViewModel.viewName = "newsView";
-        NewsViewModel.prototype.Init = function () {
+        NewsViewModel.prototype.Init = function (dataFunc) {
+            this.newList(dataFunc());
         };
         return NewsViewModel;
     })();

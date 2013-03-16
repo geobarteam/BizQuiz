@@ -83,26 +83,25 @@
     <Content Include="Scripts\tests\index.html" />
     <TypeScriptCompile Include="Scripts\bizzQuiz.ts" />
     <Content Include="packages.config" />
-    <TypeScriptCompile Include="Scripts\jquery.validate.d.ts" />
-    <Content Include="Scripts\jquery.validate.d.js">
+    <TypeScriptCompile Include="Scripts\libs\jquery.validate.d.ts" />
+    <Content Include="Scripts\libs\jquery.validate.d.js">
       <DependentUpon>jquery.validate.d.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\libs\jquery.validate.min.js" />
     <Content Include="Scripts\bizzQuiz.js">
       <DependentUpon>bizzQuiz.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\cordova-2.3.0.js" />
-    <Content Include="Scripts\index.js" />
-    <Content Include="Scripts\jquery-1.8.2.js" />
-    <Content Include="Scripts\jquery.d.ts" />
-    <Content Include="Scripts\jquery.mobile-1.2.0.js" />
-    <Content Include="Scripts\jquerymobile.d.ts" />
-    <TypeScriptCompile Include="Scripts\knockout.d.ts" />
-    <Content Include="Scripts\knockout-2.2.1.js" />
-    <Content Include="Scripts\knockout.d..js">
+    <Content Include="Scripts\libs\cordova-2.3.0.js" />
+    <Content Include="Scripts\libs\jquery-1.8.2.js" />
+    <Content Include="Scripts\libs\jquery.d.ts" />
+    <Content Include="Scripts\libs\jquery.mobile-1.2.0.js" />
+    <Content Include="Scripts\libs\jquerymobile.d.ts" />
+    <TypeScriptCompile Include="Scripts\libs\knockout.d.ts" />
+    <Content Include="Scripts\libs\knockout-2.2.1.js" />
+    <Content Include="Scripts\libs\knockout.d..js">
       <DependentUpon>knockout.d.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\phonegap.d.ts" />
+    <Content Include="Scripts\libs\phonegap.d.ts" />
     <Content Include="Scripts\tests\tsUnit.ts" />
     <TypeScriptCompile Include="Scripts\tests\unitTests.ts" />
     <Content Include="Scripts\tests\unitTests.js">

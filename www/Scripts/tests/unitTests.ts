@@ -7,7 +7,7 @@ module Unit {
                 var test = new tsUnit.Test();
 
                 test.addTestClass(new Unit.newsTests());
-
+                test.addTestClass(new newsViewModelTests());
                 // Use the built in results display
                 test.showResults(document.getElementById('results'), test.run());
             }
@@ -31,9 +31,30 @@ module Unit {
         }
     }
 
-    export class dataServiceTests extends tsUnit.TestClass {
+    export class newsViewModelTests extends tsUnit.TestClass {
+        private frontController = new BizzQuiz.FrontController(null);
 
+        private target : BizzQuiz.NewsViewModel;
+        
+        OnInitNewslistIsNotEmpty(){
+         this.target = new BizzQuiz.NewsViewModel(this.frontController);
+            this.target.Init(() => {
+                var news1 = new BizzQuiz.News();
+                news1.title = "First News";
+                news1.lines = ["line1", "line2", "line3"];
+                news1.time = new Date(Date.now());
+                news1.count = 1;
+                var news2 = new BizzQuiz.News();
+                news2.title = "Second News";
+                news2.lines = ["line1", "line2", "line3"];
+                news2.time = new Date(Date.now() - 1);
+                news2.count = 2;
 
+                return [news1, news2];
+            });
+
+            this.isTrue(this.target.newList().length > 0);
+        }
     }
 }
 

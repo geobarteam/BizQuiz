@@ -1,8 +1,8 @@
-/// <reference path="jquery.d.ts" />
-/// <reference path="phonegap.d.ts" />
-/// <reference path="jquerymobile.d.ts" />
-/// <reference path="knockout.d.ts" />
-/// <reference path="jquery.validate.d.ts" />
+/// <reference path="libs/jquery.d.ts" />
+/// <reference path="libs/phonegap.d.ts" />
+/// <reference path="libs/jquerymobile.d.ts" />
+/// <reference path="libs/knockout.d.ts" />
+/// <reference path="libs/jquery.validate.d.ts" />
 
 module BizzQuiz {
 
@@ -55,13 +55,15 @@ module BizzQuiz {
     export class FrontController {
         public user: User;
 
-        public logonViewModel: LogonViewModel;
-        public homeViewModel: HomeViewModel;
+        public logonViewModel : LogonViewModel;
+        public homeViewModel : HomeViewModel;
+        public newsViewModel: NewsViewModel;
 
         constructor(public securityService: ISecurityService) {
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
+            this.newsViewModel = new NewsViewModel(this);
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
         }
@@ -167,6 +169,7 @@ module BizzQuiz {
 
         public NewsClick() {
             console.log("NewsClick");
+            //this.fc.newsViewModel.Init();  // Geoffrey was here!
             $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });   
         }
     }
@@ -179,8 +182,8 @@ module BizzQuiz {
         constructor(private fc: FrontController) {
         }
 
-        public Init() {
-           
+        public Init(dataFunc: () => News[]) {
+            this.newList(dataFunc());
         }
     }
 
