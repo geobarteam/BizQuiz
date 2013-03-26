@@ -34,7 +34,7 @@ var Unit;
         };
         newsTests.prototype.canSetDate = function () {
             var result = this.target.date = new Date(2013, 12 - 1, 1);
-            this.areIdentical("1/12/2013", result.toLocaleDateString());
+            this.areIdentical("Sun Dec 1 2013", result.toDateString());
         };
         return newsTests;
     })(tsUnit.TestClass);
@@ -44,11 +44,9 @@ var Unit;
         function newsViewModelTests() {
             _super.apply(this, arguments);
 
-            this.frontController = new BizzQuiz.FrontController(null);
         }
         newsViewModelTests.prototype.OnInitNewslistIsNotEmpty = function () {
-            this.target = new BizzQuiz.NewsViewModel(this.frontController);
-            this.target.Init(function () {
+            this.target = new BizzQuiz.NewsViewModel(function () {
                 var news1 = new BizzQuiz.News();
                 news1.title = "First News";
                 news1.lines = [
@@ -72,7 +70,8 @@ var Unit;
                     news2
                 ];
             });
-            this.isTrue(this.target.newList().length > 0);
+            this.target.Init();
+            this.isTrue(this.target.newsList().length > 0);
         };
         return newsViewModelTests;
     })(tsUnit.TestClass);

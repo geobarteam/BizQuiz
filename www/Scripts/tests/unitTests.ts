@@ -26,19 +26,17 @@ module Unit {
         }
 
         canSetDate() {
-            var result = this.target.date = new Date(2013, 12-1, 1);
-            this.areIdentical("1/12/2013", result.toLocaleDateString());
+            var result = this.target.date = new Date(2013, 12 - 1, 1);
+            this.areIdentical("Sun Dec 1 2013", result.toDateString());
         }
     }
 
     export class newsViewModelTests extends tsUnit.TestClass {
-        private frontController = new BizzQuiz.FrontController(null);
-
+      
         private target : BizzQuiz.NewsViewModel;
         
         OnInitNewslistIsNotEmpty(){
-         this.target = new BizzQuiz.NewsViewModel(this.frontController);
-            this.target.Init(() => {
+            this.target = new BizzQuiz.NewsViewModel(() => {
                 var news1 = new BizzQuiz.News();
                 news1.title = "First News";
                 news1.lines = ["line1", "line2", "line3"];
@@ -52,8 +50,9 @@ module Unit {
 
                 return [news1, news2];
             });
+            this.target.Init();
 
-            this.isTrue(this.target.newList().length > 0);
+            this.isTrue(this.target.newsList().length > 0);
         }
     }
 }

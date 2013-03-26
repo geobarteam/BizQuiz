@@ -11,10 +11,10 @@ var BizzQuiz;
         App.initialize = function initialize() {
             console.log("Initialize");
             App.addGeneralErrorHandler();
-            App.fc = new FrontController(new SecurityService());
+            App.fc = new FrontController(new SecurityService(), new DataService());
             this.bindEvents();
-            //App.onDeviceReady();
-                    };
+            App.onDeviceReady();
+        };
         App.bindEvents = function bindEvents() {
             console.log("bindEvents");
             document.addEventListener("deviceready", this.onDeviceReady, false);
@@ -45,13 +45,16 @@ var BizzQuiz;
     BizzQuiz.App = App;    
     //-----------FrontController------------------
     var FrontController = (function () {
-        function FrontController(securityService) {
+        function FrontController(securityService, dataService) {
             this.securityService = securityService;
+            this.dataService = dataService;
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
+            this.newsViewModel = new NewsViewModel(dataService.getNewsList);
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
+            ko.applyBindings(this.newsViewModel, document.getElementById(NewsViewModel.viewName));
         }
         FrontController.prototype.init = function () {
             this.configureCrossDomainRequests();
@@ -66,6 +69,8 @@ var BizzQuiz;
                 });
             }
             this.homeViewModel.Init();
+            this.newsViewModel.Init();
+            console.log("newsViewModel Init");
         };
         FrontController.prototype.configureCrossDomainRequests = function () {
             $.mobile.allowCrossDomainPages = true;
@@ -91,7 +96,28 @@ var BizzQuiz;
     var DataService = (function () {
         function DataService() { }
         DataService.prototype.getNewsList = function () {
-            throw "Notimplented";
+            var news1 = new BizzQuiz.News();
+            news1.title = "First News";
+            news1.lines = [
+                "line1", 
+                "line2", 
+                "line3"
+            ];
+            news1.time = new Date(Date.now());
+            news1.count = 1;
+            var news2 = new BizzQuiz.News();
+            news2.title = "Second News";
+            news2.lines = [
+                "line1", 
+                "line2", 
+                "line3"
+            ];
+            news2.time = new Date(Date.now() - 1);
+            news2.count = 2;
+            return [
+                news1, 
+                news2
+            ];
         };
         return DataService;
     })();
@@ -164,14 +190,14 @@ true
     })();
     BizzQuiz.HomeViewModel = HomeViewModel;    
     var NewsViewModel = (function () {
-        function NewsViewModel(fc) {
-            this.fc = fc;
-            this.newList = ko.observable(new Array());
+        function NewsViewModel(getNews) {
+            this.getNews = getNews;
+            this.newsList = ko.observable(getNews());
         }
         NewsViewModel.viewName = "newsView";
-        NewsViewModel.prototype.Init = function (dataFunc) {
-            this.newList(dataFunc());
-        };
+        NewsViewModel.prototype.Init = function () {
+            //this.newList(this.getNewsFunc()[0].title);
+                    };
         return NewsViewModel;
     })();
     BizzQuiz.NewsViewModel = NewsViewModel;    

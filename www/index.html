@@ -54,8 +54,8 @@
             <div>
                 <ul data-role="listview">
                     <li><a href="#" id="newsButton" data-bind="click: NewsClick">News</a></li>
-                    <li><a href="#" id="quizButton" data-bind="click: QuizClick">Quiz</a></li>
-                    <li><a href="#" id="coursesButton" data-bind="click: CourseClick"></a>Course</li>
+                    <li><a href="#" id="quizButton">Quiz</a></li>
+                    <li><a href="#" id="coursesButton"></a>Course</li>
                 </ul>
             </div>
         </div>
@@ -109,9 +109,9 @@
         <!-- /header -->
         <div data-role="content" data-theme="d">
             <div>
-                <ul data-role="listview" data-inset="true" data-bind="template: { name: 'newsTemplate', foreach: newsList, as: 'news' }">
+               <ul data-role="listview" data-inset="true" data-bind="template: { name: 'newsTemplate', foreach: newsList, as: 'news' }">
                     <script type="text/html" id="newsTemplate">
-                        <li data-role="list-divider"data-bind="date"><span class="ui-li-count" data-bind="count"></span></li>
+                        <li data-role="list-divider" data-bind="text: date"><span class="ui-li-count" data-bind="text: count"></span></li>
                         <li><a href="#homeView">
                             <h2 data-bind="text: title"></h2>
                             <span data-bind="template: { name: 'textTemplate', foreach: lines, as: 'line' }"></span>
@@ -121,7 +121,7 @@
                     <script type="text/html" id="textTemplate">
                             <p data-bind="text: line"></p>
                     </script>
-                </ul>    
+                </ul>  
             </div>
         </div>
         <!-- /content -->

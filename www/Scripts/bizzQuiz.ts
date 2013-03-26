@@ -13,9 +13,11 @@ module BizzQuiz {
         static initialize() {
             console.log("Initialize");
             App.addGeneralErrorHandler();
-            fc = new FrontController(new SecurityService());
+            fc = new FrontController(
+                        new SecurityService(),
+                        new DataService());
             this.bindEvents();
-            //App.onDeviceReady();
+            App.onDeviceReady();
         }
 
         private static bindEvents() {
@@ -59,13 +61,15 @@ module BizzQuiz {
         public homeViewModel : HomeViewModel;
         public newsViewModel: NewsViewModel;
 
-        constructor(public securityService: ISecurityService) {
+        constructor(public securityService: ISecurityService, public dataService : IDataService) {
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
-            this.newsViewModel = new NewsViewModel(this);
+            this.newsViewModel = new NewsViewModel(dataService.getNewsList);
+ 
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
+            ko.applyBindings(this.newsViewModel, document.getElementById(NewsViewModel.viewName));
         }
 
         public init() {
@@ -81,6 +85,8 @@ module BizzQuiz {
             }
 
             this.homeViewModel.Init();
+            this.newsViewModel.Init();
+            console.log("newsViewModel Init");
         }
 
         private configureCrossDomainRequests(){
@@ -112,7 +118,20 @@ module BizzQuiz {
 
     export class DataService implements IDataService {
         public getNewsList(): News[]{
-            throw "Notimplented";
+
+            var news1 = new BizzQuiz.News();
+            news1.title = "First News";
+            news1.lines = ["line1", "line2", "line3"];
+            news1.time = new Date(Date.now());
+            news1.count = 1;
+
+            var news2 = new BizzQuiz.News();
+            news2.title = "Second News";
+            news2.lines = ["line1", "line2", "line3"];
+            news2.time = new Date(Date.now() - 1);
+            news2.count = 2;
+
+            return [news1, news2];
         }
     }
 
@@ -161,7 +180,7 @@ module BizzQuiz {
     export class HomeViewModel {
         static viewName = "homeView";
 
-        constructor(private fc: FrontController) {
+        constructor(private fc : FrontController) {
         }
 
         public Init() {
@@ -169,7 +188,6 @@ module BizzQuiz {
 
         public NewsClick() {
             console.log("NewsClick");
-            //this.fc.newsViewModel.Init();  // Geoffrey was here!
             $.mobile.changePage("#" + NewsViewModel.viewName, { transition: "slideup" });   
         }
     }
@@ -177,13 +195,13 @@ module BizzQuiz {
     export class NewsViewModel {
         static viewName = "newsView";
 
-        public newList = ko.observable(new News[]);
+        public newsList = ko.observable(getNews());
 
-        constructor(private fc: FrontController) {
+        constructor(private getNews: () => News[]) {
         }
 
-        public Init(dataFunc: () => News[]) {
-            this.newList(dataFunc());
+        public Init() {
+            //this.newList(this.getNewsFunc()[0].title);
         }
     }
 
