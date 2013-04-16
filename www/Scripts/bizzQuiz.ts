@@ -121,14 +121,12 @@ module BizzQuiz {
 
             var news1 = new BizzQuiz.News();
             news1.title = "First News";
-            news1.lines = ["line1", "line2", "line3"];
-            news1.time = new Date(Date.now());
+            news1.lines = ["line1 sdqd qsd qsdz zadzd dzzd dz ad ddz zdd.", "line2 dds sqd dz dfdfd dds", "line3 qsdqs dsq sdqssd qd"];
             news1.count = 1;
 
             var news2 = new BizzQuiz.News();
             news2.title = "Second News";
-            news2.lines = ["line1", "line2", "line3"];
-            news2.time = new Date(Date.now() - 1);
+            news2.lines = ["line1 sfdf fsd fdsdf fdzer rtetyh koui kjj jk uiyyiuy jgbds", "qsdd sqd qsdssline2", "line3"];
             news2.count = 2;
 
             return [news1, news2];
@@ -201,7 +199,7 @@ module BizzQuiz {
         }
 
         public Init() {
-            //this.newList(this.getNewsFunc()[0].title);
+            
         }
     }
 
@@ -209,9 +207,15 @@ module BizzQuiz {
     //-----------------Models--------------------
     export class News {
         public date = new Date();
+        public formatedDate(): string {
+            return this.date.toLocaleDateString();
+        };
+        public time(): string {
+            return this.date.toTimeString();
+        };
         public count = 0;
         public title = "";
         public lines = new string[];
-        public time = new Date();
+        
     }
 }

@@ -54,7 +54,6 @@ var Unit;
                     "line2", 
                     "line3"
                 ];
-                news1.time = new Date(Date.now());
                 news1.count = 1;
                 var news2 = new BizzQuiz.News();
                 news2.title = "Second News";
@@ -63,7 +62,6 @@ var Unit;
                     "line2", 
                     "line3"
                 ];
-                news2.time = new Date(Date.now() - 1);
                 news2.count = 2;
                 return [
                     news1, 
