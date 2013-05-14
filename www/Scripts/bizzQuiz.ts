@@ -3,6 +3,9 @@
 /// <reference path="libs/jquerymobile.d.ts" />
 /// <reference path="libs/knockout.d.ts" />
 /// <reference path="libs/jquery.validate.d.ts" />
+/// <reference path="libs/AzureMobileServicesClient.d.ts" />
+
+
 
 module BizzQuiz {
 
@@ -65,7 +68,7 @@ module BizzQuiz {
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
-            this.newsViewModel = new NewsViewModel(dataService.getNewsList);
+            this.newsViewModel = new NewsViewModel(dataService.NewsList);
  
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
@@ -107,7 +110,8 @@ module BizzQuiz {
     }
 
     export interface IDataService {
-        getNewsList(): News[];
+        NewsList: KnockoutObservableAny;
+        Init();
     }
 
     export class SecurityService implements ISecurityService {
@@ -117,8 +121,10 @@ module BizzQuiz {
     }
 
     export class DataService implements IDataService {
-        public getNewsList(): News[]{
 
+        public NewsList = ko.observable(new News[]);
+
+        public Init() {
             var news1 = new BizzQuiz.News();
             news1.title = "First News";
             news1.lines = ["line1 sdqd qsd qsdz zadzd dzzd dz ad ddz zdd.", "line2 dds sqd dz dfdfd dds", "line3 qsdqs dsq sdqssd qd"];
@@ -128,8 +134,35 @@ module BizzQuiz {
             news2.title = "Second News";
             news2.lines = ["line1 sfdf fsd fdsdf fdzer rtetyh koui kjj jk uiyyiuy jgbds", "qsdd sqd qsdssline2", "line3"];
             news2.count = 2;
+                        
+            this.NewsList = ko.observable([news1, news2]);
+        }
+           
+    }
 
-            return [news1, news2];
+    export class AzureDataService implements IDataService {
+
+        private client: Microsoft.WindowsAzure.MobileServiceClient;
+        private newsTable: Microsoft.WindowsAzure.MobileServiceTable;
+
+        public NewsList = ko.observable(new News[]);
+
+        constructor() {
+             this.client = new WindowsAzure.MobileServiceClient('https://bizzquiz.azure-mobile.net/', 'LaQnzkTDXkDPzuOSnqmkNZnkvotZQi34');
+             this.newsTable = this.client.getTable('News');
+        }
+
+        public Init(){
+            var newsList = new News[];
+            this.newsTable.read().then(function (newsItems) {
+                newsList = $.map(newsItems, function (item) {
+                    var news = new BizzQuiz.News();
+                    news.title = item.title;
+                    return news;
+                });
+                this.NewsList = ko.observable(newsList);
+            });
+            
         }
     }
 

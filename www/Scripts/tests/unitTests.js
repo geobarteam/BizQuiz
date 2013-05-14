@@ -14,6 +14,7 @@ var Unit;
             var test = new tsUnit.Test();
             test.addTestClass(new Unit.newsTests());
             test.addTestClass(new newsViewModelTests());
+            test.addTestClass(new azureDataServiceTest());
             // Use the built in results display
             test.showResults(document.getElementById('results'), test.run());
         };
@@ -74,5 +75,72 @@ var Unit;
         return newsViewModelTests;
     })(tsUnit.TestClass);
     Unit.newsViewModelTests = newsViewModelTests;    
+    var azureDataServiceTest = (function (_super) {
+        __extends(azureDataServiceTest, _super);
+        function azureDataServiceTest() {
+                _super.call(this);
+            var client = new WindowsAzure.MobileServiceClient('https://bizzquiz.azure-mobile.net/', 'LaQnzkTDXkDPzuOSnqmkNZnkvotZQi34');
+            var newsTable = client.getTable('News');
+            var result;
+            newsTable.where({
+                title: 'testTitle'
+            }).read().done(function (items) {
+                if(items.length() == 0) {
+                    newsTable.insert({
+                        title: "testTitle",
+                        count: 1
+                    });
+                }
+            });
+            this.target = new BizzQuiz.AzureDataService();
+        }
+        azureDataServiceTest.prototype.GetNewsListReturnNotEmptyList = function () {
+            this.target.Init();
+            var result = false;
+            var that = this;
+            this.WaitUntil(this.target.NewsList().length > 0, function () {
+                result = true;
+            }, 100, 1000);
+            this.isTrue(result);
+        };
+        azureDataServiceTest.prototype.WaitUntil = /// $waitUntil
+        ///      waits until a certain function returns true and then executes a code. checks the function periodically
+        /// parameters
+        ///      check - a function that should return false or true
+        ///      onComplete - a function to execute when the check function returns true
+        ///      delay - time in milliseconds, specifies the time period between each check. default value is 100
+        ///      timeout - time in milliseconds, specifies how long to wait and check the check function before giving up
+        function (check, onComplete, delay, timeout) {
+            // if the check returns true, execute onComplete immediately
+            if(check()) {
+                onComplete();
+                return;
+            }
+            if(!delay) {
+                delay = 100;
+            }
+            var timeoutPointer;
+            var intervalPointer = setInterval(function () {
+                if(!check()) {
+                    return;
+                }// if check didn't return true, means we need another check in the next interval
+                
+                // if the check returned true, means we're done here. clear the interval and the timeout and execute onComplete
+                clearInterval(intervalPointer);
+                if(timeoutPointer) {
+                    clearTimeout(timeoutPointer);
+                }
+                onComplete();
+            }, delay);
+            // if after timeout milliseconds function doesn't return true, abort
+            if(timeout) {
+                timeoutPointer = setTimeout(function () {
+                    clearInterval(intervalPointer);
+                }, timeout);
+            }
+        };
+        return azureDataServiceTest;
+    })(tsUnit.TestClass);
+    Unit.azureDataServiceTest = azureDataServiceTest;    
 })(Unit || (Unit = {}));
 //@ sourceMappingURL=unitTests.js.map

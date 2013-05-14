@@ -80,6 +80,10 @@
     <Content Include="res\screen\ios\screen-iphone-landscape.png" />
     <Content Include="res\screen\ios\screen-iphone-portrait-2x.png" />
     <Content Include="res\screen\ios\screen-iphone-portrait.png" />
+    <TypeScriptCompile Include="Scripts\libs\AzureMobileServicesClient.d.ts" />
+    <Content Include="Scripts\libs\AzureMobileServicesClient.d.js">
+      <DependentUpon>AzureMobileServicesClient.d.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\tests\index.html" />
     <TypeScriptCompile Include="Scripts\bizzQuiz.ts" />
     <Content Include="packages.config" />

@@ -3,6 +3,7 @@
 /// <reference path="libs/jquerymobile.d.ts" />
 /// <reference path="libs/knockout.d.ts" />
 /// <reference path="libs/jquery.validate.d.ts" />
+/// <reference path="libs/AzureMobileServicesClient.d.ts" />
 var BizzQuiz;
 (function (BizzQuiz) {
     //--------------App---------------------
@@ -51,7 +52,7 @@ var BizzQuiz;
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
-            this.newsViewModel = new NewsViewModel(dataService.getNewsList);
+            this.newsViewModel = new NewsViewModel(dataService.NewsList);
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
             ko.applyBindings(this.newsViewModel, document.getElementById(NewsViewModel.viewName));
@@ -94,8 +95,10 @@ var BizzQuiz;
     })();
     BizzQuiz.SecurityService = SecurityService;    
     var DataService = (function () {
-        function DataService() { }
-        DataService.prototype.getNewsList = function () {
+        function DataService() {
+            this.NewsList = ko.observable(new Array());
+        }
+        DataService.prototype.Init = function () {
             var news1 = new BizzQuiz.News();
             news1.title = "First News";
             news1.lines = [
@@ -112,14 +115,34 @@ var BizzQuiz;
                 "line3"
             ];
             news2.count = 2;
-            return [
+            this.NewsList = ko.observable([
                 news1, 
                 news2
-            ];
+            ]);
         };
         return DataService;
     })();
     BizzQuiz.DataService = DataService;    
+    var AzureDataService = (function () {
+        function AzureDataService() {
+            this.NewsList = ko.observable(new Array());
+            this.client = new WindowsAzure.MobileServiceClient('https://bizzquiz.azure-mobile.net/', 'LaQnzkTDXkDPzuOSnqmkNZnkvotZQi34');
+            this.newsTable = this.client.getTable('News');
+        }
+        AzureDataService.prototype.Init = function () {
+            var newsList = new Array();
+            this.newsTable.read().then(function (newsItems) {
+                newsList = $.map(newsItems, function (item) {
+                    var news = new BizzQuiz.News();
+                    news.title = item.title;
+                    return news;
+                });
+                this.NewsList = ko.observable(newsList);
+            });
+        };
+        return AzureDataService;
+    })();
+    BizzQuiz.AzureDataService = AzureDataService;    
     //--------------------ViewModels-------------------
     var LogonViewModel = (function () {
         function LogonViewModel(fc) {
