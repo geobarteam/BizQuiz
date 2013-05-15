@@ -3,11 +3,20 @@
 var Unit;
 (function (Unit) {
     QUnit.module("BizzQuiz.ts tests");
-    test("canSetLines", function () {
-        var test = new newsTests();
-        test.canSetLines();
-        test.canSetDate();
-    });
+    var Tests = (function () {
+        function Tests() { }
+        Tests.run = function run() {
+            var newsTest = new newsTests();
+            test("canSetLines", function () {
+                newsTest.canSetLines();
+            });
+            test("canSetDate", function () {
+                newsTest.canSetDate();
+            });
+        };
+        return Tests;
+    })();
+    Unit.Tests = Tests;    
     var newsTests = (function () {
         function newsTests() {
             this.target = new BizzQuiz.News();

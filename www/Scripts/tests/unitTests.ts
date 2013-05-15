@@ -1,13 +1,21 @@
 /// <reference path="qunit.d.ts" />
 /// <reference path="../bizzQuiz.ts" />
 module Unit {
-    QUnit.module("BizzQuiz.ts tests");
 
-    test("canSetLines", function () {
-        var test = new newsTests();
-        test.canSetLines();
-        test.canSetDate();
-    });
+    QUnit.module("BizzQuiz.ts tests");
+    
+    export class Tests {
+        public static run() {
+            var newsTest = new newsTests();
+
+            test("canSetLines", function () {
+                newsTest.canSetLines();
+            });
+            test("canSetDate", function () {
+                newsTest.canSetDate();
+            });
+        }
+    }
 
     export class newsTests {
 
