@@ -59,6 +59,7 @@
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="css\qunit.css" />
     <Content Include="css\images\ajax-loader.gif" />
     <Content Include="css\images\icons-18-black.png" />
     <Content Include="css\images\icons-18-white.png" />
@@ -84,6 +85,10 @@
     <Content Include="Scripts\libs\AzureMobileServicesClient.d.js">
       <DependentUpon>AzureMobileServicesClient.d.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Scripts\tests\qunit.d.ts" />
+    <Content Include="Scripts\tests\qunit.d.js">
+      <DependentUpon>qunit.d.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\tests\index.html" />
     <TypeScriptCompile Include="Scripts\bizzQuiz.ts" />
     <Content Include="packages.config" />
@@ -106,8 +111,8 @@
       <DependentUpon>knockout.d.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\libs\phonegap.d.ts" />
-    <Content Include="Scripts\tests\tsUnit.ts" />
     <TypeScriptCompile Include="Scripts\tests\unitTests.ts" />
+    <Content Include="Scripts\tests\qunit.js" />
     <Content Include="Scripts\tests\unitTests.js">
       <DependentUpon>unitTests.ts</DependentUpon>
     </Content>
@@ -130,5 +135,6 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
 </Project>
