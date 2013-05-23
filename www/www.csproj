@@ -86,6 +86,10 @@
       <DependentUpon>AzureMobileServicesClient.d.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\tests\qunit.d.ts" />
+    <TypeScriptCompile Include="Scripts\tests\helpers.ts" />
+    <Content Include="Scripts\tests\helpers.js">
+      <DependentUpon>helpers.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\tests\qunit.d.js">
       <DependentUpon>qunit.d.ts</DependentUpon>
     </Content>

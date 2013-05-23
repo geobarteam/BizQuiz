@@ -1,4 +1,5 @@
 /// <reference path="qunit.d.ts" />
+/// <reference path="helpers.ts" />
 /// <reference path="../bizzQuiz.ts" />
 module Unit {
 
@@ -6,118 +7,98 @@ module Unit {
     
     export class Tests {
         public static run() {
-            var newsTest = new newsTests();
-
-            test("canSetLines", function () {
-                newsTest.canSetLines();
+            
+            test("Given Dummy News object then can get lines", function () {
+                new givenDummyNewsObject().ThenCanGetLines();
             });
-            test("canSetDate", function () {
-                newsTest.canSetDate();
+
+            test("Given dummy News object then can get date", function () {
+                new givenDummyNewsObject().ThenCanGetDate();
+            });
+
+            test("When news init then newsViewModel.NewsList is not empty", function () {
+                new whenNewsInit().thenNewsViewModelNewsListIsNotEmpty();
+            });
+
+            asyncTest("Given aa non empty NewsTable when AzureDataService.Init then after a while newsList is not empty", function () {
+                var test = new GivenANewsTableWithNewsWhenAzureDataServiceInit();
+                test.target.GetNewsList(function (result: BizzQuiz.News[]) {
+                    ok(result.length > 0);
+                    start();
+                });
             });
         }
     }
 
-    export class newsTests {
+    export class givenDummyNewsObject extends Helpers.GivenWhenThen {
 
-        public target = new BizzQuiz.News();
+        private target : BizzQuiz.News;
 
-        canSetLines() {
+        given() {
+            this.target = new BizzQuiz.News();
             this.target.lines.push("This is the first line.");
             this.target.lines.push("This is the second line that is longer as the first.");
-            equal(2, this.target.lines.length);
-
+            this.target.date = new Date(2013, 12 - 1, 1);
         }
 
-        canSetDate() {
-            var result = this.target.date = new Date(2013, 12 - 1, 1);
-            equal("Sun Dec 1 2013", result.toDateString());
+        public ThenCanGetLines() {
+            equal(2, this.target.lines.length);
+        }
+
+        public ThenCanGetDate() {
+            equal("Sun Dec 1 2013", this.target.date.toDateString());
         }
     }
 
-    //export class newsViewModelTests extends tsUnit.TestClass {
+    export class DataServiceMock implements BizzQuiz.IDataService
+    {
+        public GetNewsList(callBack: (news: BizzQuiz.News[]) => void ){
+            var news1 = new BizzQuiz.News();
+            news1.title = "First News";
+            news1.lines = ["line1", "line2", "line3"];
+            news1.count = 1;
+            var news2 = new BizzQuiz.News();
+            news2.title = "Second News";
+            news2.lines = ["line1", "line2", "line3"];
+            news2.count = 2;
 
-    //    private target: BizzQuiz.NewsViewModel;
+            callBack([news1, news2]);
+        }
+    }
+    export class whenNewsInit extends Helpers.GivenWhenThen{
 
-    //    OnInitNewslistIsNotEmpty() {
-    //        this.target = new BizzQuiz.NewsViewModel(() => {
-    //            var news1 = new BizzQuiz.News();
-    //            news1.title = "First News";
-    //            news1.lines = ["line1", "line2", "line3"];
-    //            news1.count = 1;
-    //            var news2 = new BizzQuiz.News();
-    //            news2.title = "Second News";
-    //            news2.lines = ["line1", "line2", "line3"];
-    //            news2.count = 2;
+        private target: BizzQuiz.NewsViewModel;
 
-    //            return [news1, news2];
-    //        });
-    //        this.target.Init();
+        private given() {
+            this.target = new BizzQuiz.NewsViewModel(new DataServiceMock());
+            }
 
-    //        this.isTrue(this.target.newsList().length > 0);
-    //    }
-    //}
+        private when() {
 
-    //export class azureDataServiceTest extends tsUnit.TestClass {
+            this.target.Init();
+            }
 
-    //    private target: BizzQuiz.AzureDataService;
+        public thenNewsViewModelNewsListIsNotEmpty() {
+            ok(this.target.NewsList().length > 0);
+        }
+    }
 
-    //    constructor() {
-    //        super();
-    //        var client = new WindowsAzure.MobileServiceClient('https://bizzquiz.azure-mobile.net/', 'LaQnzkTDXkDPzuOSnqmkNZnkvotZQi34');
-    //        var newsTable = client.getTable('News');
-    //        var result;
-    //        newsTable.where({ title: 'testTitle' }).read().done(
-    //            function (items) {
-    //                if (items.length() == 0) {
-    //                    newsTable.insert({ title: "testTitle", count: 1 });
-    //                }
-    //            });
+    export class GivenANewsTableWithNewsWhenAzureDataServiceInit extends Helpers.GivenWhenThen {
 
-    //        this.target = new BizzQuiz.AzureDataService();
-    //    }
+        public target: BizzQuiz.AzureDataService;
 
-    //    GetNewsListReturnNotEmptyList() {
-    //        this.target.Init();
-    //        var result = false;
-    //        var that = this;
+        given() {
+            var client = new WindowsAzure.MobileServiceClient('https://bizzquiz.azure-mobile.net/', 'LaQnzkTDXkDPzuOSnqmkNZnkvotZQi34');
+            var newsTable = client.getTable('News');
+            var result;
+            newsTable.where({ title: 'testTitle' }).read().done(
+                function (items) {
+                    if (items.length() == 0) {
+                        newsTable.insert({ title: "testTitle", count: 1 });
+                    }
+                });
 
-    //        this.WaitUntil(this.target.NewsList().length > 0, function () { result = true }, 100, 1000);
-
-    //        this.isTrue(result);
-    //    }
-
-    //    /// $waitUntil
-    //    ///      waits until a certain function returns true and then executes a code. checks the function periodically
-    //    /// parameters
-    //    ///      check - a function that should return false or true
-    //    ///      onComplete - a function to execute when the check function returns true
-    //    ///      delay - time in milliseconds, specifies the time period between each check. default value is 100
-    //    ///      timeout - time in milliseconds, specifies how long to wait and check the check function before giving up
-    //        private WaitUntil(check, onComplete, delay, timeout) {
-    //        // if the check returns true, execute onComplete immediately
-    //        if (check()) {
-    //            onComplete();
-    //            return;
-    //        }
-
-    //        if (!delay) delay = 100;
-
-    //        var timeoutPointer;
-    //        var intervalPointer = setInterval(function () {
-    //            if (!check()) return; // if check didn't return true, means we need another check in the next interval
-
-    //            // if the check returned true, means we're done here. clear the interval and the timeout and execute onComplete
-    //            clearInterval(intervalPointer);
-    //            if (timeoutPointer) clearTimeout(timeoutPointer);
-    //            onComplete();
-    //        }, delay);
-    //        // if after timeout milliseconds function doesn't return true, abort
-    //        if (timeout) timeoutPointer = setTimeout(function () {
-    //            clearInterval(intervalPointer);
-    //        }, timeout);
-    //    }
-
-    //}
-
-
+            this.target = new BizzQuiz.AzureDataService();
+        }
+    }
 }

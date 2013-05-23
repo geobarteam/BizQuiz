@@ -18,7 +18,7 @@ module BizzQuiz {
             App.addGeneralErrorHandler();
             fc = new FrontController(
                         new SecurityService(),
-                        new DataService());
+                        new AzureDataService());
             this.bindEvents();
             App.onDeviceReady();
         }
@@ -68,8 +68,8 @@ module BizzQuiz {
             this.user = new User();
             this.logonViewModel = new LogonViewModel(this);
             this.homeViewModel = new HomeViewModel(this);
-            this.newsViewModel = new NewsViewModel(dataService.NewsList);
- 
+            this.newsViewModel = new NewsViewModel(dataService);
+
             ko.applyBindings(this.logonViewModel, document.getElementById(LogonViewModel.viewName));
             ko.applyBindings(this.homeViewModel, document.getElementById(HomeViewModel.viewName));
             ko.applyBindings(this.newsViewModel, document.getElementById(NewsViewModel.viewName));
@@ -110,34 +110,13 @@ module BizzQuiz {
     }
 
     export interface IDataService {
-        NewsList: KnockoutObservableAny;
-        Init();
+        GetNewsList(callBack: (news: News[]) => void);
     }
 
     export class SecurityService implements ISecurityService {
         public authenticate(username: string, password: string): bool {
             return username == "geobarteam" && password == "starwars";
         }
-    }
-
-    export class DataService implements IDataService {
-
-        public NewsList = ko.observable(new News[]);
-
-        public Init() {
-            var news1 = new BizzQuiz.News();
-            news1.title = "First News";
-            news1.lines = ["line1 sdqd qsd qsdz zadzd dzzd dz ad ddz zdd.", "line2 dds sqd dz dfdfd dds", "line3 qsdqs dsq sdqssd qd"];
-            news1.count = 1;
-
-            var news2 = new BizzQuiz.News();
-            news2.title = "Second News";
-            news2.lines = ["line1 sfdf fsd fdsdf fdzer rtetyh koui kjj jk uiyyiuy jgbds", "qsdd sqd qsdssline2", "line3"];
-            news2.count = 2;
-                        
-            this.NewsList = ko.observable([news1, news2]);
-        }
-           
     }
 
     export class AzureDataService implements IDataService {
@@ -152,7 +131,7 @@ module BizzQuiz {
              this.newsTable = this.client.getTable('News');
         }
 
-        public Init(){
+        public GetNewsList(ready:(news :News[])=>void){
             var newsList = new News[];
             this.newsTable.read().then(function (newsItems) {
                 newsList = $.map(newsItems, function (item) {
@@ -160,12 +139,10 @@ module BizzQuiz {
                     news.title = item.title;
                     return news;
                 });
-                this.NewsList = ko.observable(newsList);
+                ready(newsList);
             });
-            
         }
     }
-
 
     //--------------------ViewModels-------------------
     export class LogonViewModel {
@@ -224,31 +201,40 @@ module BizzQuiz {
     }
 
     export class NewsViewModel {
+
         static viewName = "newsView";
 
-        public newsList = ko.observable(getNews());
+        public NewsList = ko.observableArray(new News[]);
 
-        constructor(private getNews: () => News[]) {
+        constructor(private dataService: IDataService) {
         }
 
         public Init() {
-            
+            var that = this;
+            this.dataService.GetNewsList(function (result: News[]) {
+                result.forEach(function (news) {
+                    that.NewsList.push(news);
+                });
+            });
         }
     }
-
 
     //-----------------Models--------------------
     export class News {
         public date = new Date();
+
         public formatedDate(): string {
             return this.date.toLocaleDateString();
         };
+
         public time(): string {
             return this.date.toTimeString();
         };
+
         public count = 0;
+
         public title = "";
+
         public lines = new string[];
-        
     }
 }
